@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title></title>
+<script>
+// 所有界面文案集中于此；替换此对象即可翻译界面。
+const TEXT = {
+  title: '耳环佩戴比例视觉化工具', subtitle: '上传你的耳环设计，直观看到实际佩戴后的长度与比例。',
+  brand: '珠宝设计工作室', edition: '比例研究 / 01', controls: '控制面板', preview: '佩戴效果预览',
+  design: '我的耳环设计', upload: '＋ 上传耳环设计图', formats: 'PNG / JPG / JPEG · 点击或拖拽',
+  reupload: '重新上传', example: '使用示例耳环', sample: '水滴形示例耳环', thumbnail: '耳环设计缩略图',
+  uploadNote: '请让图片顶端对齐耳环的悬挂点，并完整包含耳环最低处。推荐使用透明背景 PNG。',
+  removeWhite: '去除白色背景', blendNote: '以正片叠底方式融合白底，非精确抠图。',
+  length: '耳环实际长度', lengthNote: '长度指从悬挂点到耳环最低点。', rotation: '旋转', rotationNote: '以耳垂悬挂点为中心调整角度。',
+  compare: '比较两个长度', back: '返回单个预览', reset: '重置', delete: '删除设计',
+  empty: '上传设计后，这里会显示佩戴效果', reference: '视觉比例参考', scale: '1 单位 = 1 cm',
+  lobe: '耳垂悬挂点', shoulder: '肩线 · 耳垂下方约 11 cm', local: '图片仅在本地处理',
+  disclaimer: '本工具用于珠宝设计阶段的视觉比例参考，不代表实际佩戴效果或精确尺寸。',
+  invalid: '请选择 PNG 或 JPG 格式的图片。', failed: '图片读取失败，请换一张图片重试。',
+  processing: '正在整理图片…', ready: '图片已就绪，已自动整理空白边。', original: '图片已就绪，保留完整画面。',
+  deleted: '已删除设计。', resetDone: '已重置长度与旋转，保留当前设计。',
+  a: 'A', b: 'B', cm: 'cm', degree: '°', dash: '—', single: '侧面 · 等比例', comparison: '长度比较', study: '佩戴比例研究', studyNote: '耳垂佩戴 / 侧面视角',
+  lengthLabel: '长度', angleLabel: '旋转角度', svgLabel: '耳朵、肩线与耳环比例示意图'
+};
+</script>
+<style>
+:root{color-scheme:light;--paper:#faf9f6;--white:#fff;--ink:#333631;--muted:#777970;--line:#e1e2da;--accent:#596350}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.6}button,input{font:inherit}button{cursor:pointer;color:inherit}button:focus-visible,input:focus-visible,.drop:focus-visible{outline:2px solid var(--accent);outline-offset:4px}button{border:1px solid var(--line);border-radius:5px;background:white;padding:9px 15px}button:hover{background:#f1f2ec}button:disabled{opacity:.4;cursor:default}button.active{background:var(--accent);border-color:var(--accent);color:white}[hidden]{display:none!important}.page{max-width:1320px;margin:auto;padding:28px 48px 22px}.masthead{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:18px;font-size:11px;letter-spacing:2px}.brand{display:flex;align-items:center;gap:10px}.brand svg{width:22px;height:28px}.intro{padding:35px 0 30px}h1{font-family:Georgia,"Songti SC",SimSun,serif;font-size:clamp(25px,3vw,36px);font-weight:400;letter-spacing:2px;margin:0 0 10px}.subtitle{color:var(--muted);margin:0;font-size:13px}.workspace{display:grid;grid-template-columns:330px minmax(0,1fr);gap:28px}.panel{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:24px}.panel-title{font-size:11px;letter-spacing:2px;color:var(--muted);margin:0 0 24px}.section{border-bottom:1px solid var(--line);padding-bottom:23px;margin-bottom:23px}h2,h3{font-weight:500}h3{font-size:14px;margin:0 0 13px}.step{color:#9a9d94;font-size:10px;margin-right:9px}.drop{border:1px dashed #c7cbbf;border-radius:5px;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:#fbfcf9;cursor:pointer;text-align:center;padding:15px}.drop.dragging{border-color:var(--accent);background:#eef1e9}.drop small{color:var(--muted);font-size:10px;letter-spacing:.5px}.uploaded{display:flex;align-items:center;gap:16px}.thumb{width:66px;height:85px;object-fit:contain;background:var(--paper);border:1px solid var(--line);padding:7px}.file-name{font-size:11px;overflow-wrap:anywhere;margin-bottom:7px}.upload-actions{min-width:0}.small{font-size:11px;padding:5px 11px}.note{font-size:11px;color:var(--muted);line-height:1.85;margin:12px 0 0}.text-button{border:0;background:transparent;padding:0;border-bottom:1px solid #b9bfb1;border-radius:0;font-size:11px;margin-top:13px}.check{font-size:12px;display:flex;gap:8px;align-items:center;margin-top:16px}input[type=checkbox]{accent-color:var(--accent)}.length-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.length-head h3{margin:0}.value{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}input[type=number]{width:63px;border:1px solid var(--line);border-radius:4px;padding:5px;color:var(--ink);background:var(--white)}input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;margin:5px 0;height:18px}.range-labels{display:flex;justify-content:space-between;color:#94978e;font-size:10px}.quick{display:flex;gap:5px;margin-top:13px}.quick button{flex:1;padding:5px 0;font-size:11px}.primary{width:100%;background:var(--ink);color:white;border-color:var(--ink);padding:11px}.primary:hover{background:#4b5045}.actions{display:flex;justify-content:space-between;margin-top:12px}.subtle{border:0;background:transparent;font-size:11px;color:var(--muted);padding:6px 0}.status{font-size:11px;color:var(--accent);min-height:18px;margin:12px 0 0}.status.error{color:#8b4037}.preview-panel{border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;background:#f4f4ef;min-width:0}.preview-header{padding:20px 25px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);background:#f8f8f4}.preview-header h2{font-size:13px;margin:0}.badge{font-size:10px;color:var(--muted);border:1px solid var(--line);padding:3px 8px;border-radius:3px}.stage{display:grid;grid-template-columns:minmax(0,1fr);flex:1;align-items:center;padding:15px 24px 0}.stage.compare{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.view{min-width:0}.view+ .view{border-left:1px solid var(--line);padding-left:12px}.art{width:100%;height:auto;max-height:560px;display:block;overflow:hidden}.art text{font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif}.compare-control{padding:10px 4px 22px}.compare-control .length-head{gap:5px}.compare-control input[type=number]{width:55px}.compare-label{font-family:Georgia,serif;font-size:19px}.empty{text-align:center;font-size:11px;color:#8d9186;padding:0 10px 18px}.preview-footer{display:flex;justify-content:space-between;padding:15px 25px;border-top:1px solid var(--line);font-size:10px;color:var(--muted)}footer{text-align:center;color:#909388;font-size:10px;padding-top:24px;line-height:1.8}.dot{display:inline-block;width:5px;height:5px;background:#929d86;border-radius:50%;margin-right:6px}
+@media(min-width:1000px){.stage:not(.compare) .art{max-height:555px}}@media(max-width:850px){.page{padding:22px}.workspace{grid-template-columns:290px minmax(0,1fr);gap:16px}.panel{padding:19px}.stage{padding:12px 8px 0}.stage.compare{gap:3px}.view+.view{padding-left:3px}.preview-header{padding:18px 15px}.preview-footer{padding:14px;font-size:9px;gap:8px}.badge{font-size:9px}}@media(max-width:650px){.page{padding:18px 16px}.masthead{font-size:9px;letter-spacing:1px}.intro{padding:28px 0 24px}h1{font-size:25px;letter-spacing:0}.subtitle{font-size:12px;max-width:290px}.workspace{grid-template-columns:minmax(0,1fr)}.panel{padding:21px}.panel-title{margin-bottom:18px}.section{padding-bottom:19px;margin-bottom:19px}.preview-header{padding:18px}.art{max-height:520px}.stage.compare .art{min-height:0}.preview-footer{flex-wrap:wrap}.compare-control .value{gap:3px}.compare-control input[type=number]{width:51px}.compare-label{font-size:17px}footer{padding:20px 8px}}
+.stage.compare{align-items:start}.stage.compare .view+.view{border:0;padding-left:0;box-shadow:-1px 0 var(--line)}
+.preview-panel{background:#f8f6f2}.preview-header{background:#fcfbf8;padding:22px 26px}.preview-header h2{font-family:Georgia,"Songti SC",SimSun,serif;font-size:17px;letter-spacing:1px}.badge{border:0;letter-spacing:1px}.stage{padding:0 18px;align-items:center}.art{max-height:640px}.preview-footer{background:#fcfbf8;padding:18px 26px}.empty{margin:0;padding:8px 16px 24px}.compare-control{padding:18px 12px 25px}.stage.compare .art{max-height:590px}@media(min-width:1000px){.stage:not(.compare) .art{max-height:640px}}@media(max-width:650px){.stage{padding:0 8px}.preview-header{padding:20px}.preview-header h2{font-size:15px}.art{max-height:550px}.compare-control{padding:12px 5px 22px}.preview-footer{padding:16px}.badge{font-size:9px}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="masthead"><span class="brand"><svg viewBox="0 0 24 32" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="4" r="2.5"/><path d="M12 7C10 11 4 17 4 23a8 8 0 0 0 16 0c0-6-6-12-8-16Z"/></svg><span data-text="brand"></span></span><span data-text="edition"></span></header>
+  <div class="intro"><h1 data-text="title"></h1><p class="subtitle" data-text="subtitle"></p></div>
+  <main class="workspace">
+    <aside class="panel" aria-labelledby="controls-title">
+      <h2 class="panel-title" id="controls-title" data-text="controls"></h2>
+      <section class="section"><h3><span class="step">01</span><span data-text="design"></span></h3>
+        <input type="file" id="file" accept="image/png,image/jpeg,.png,.jpg,.jpeg" hidden>
+        <div id="drop" class="drop" role="button" tabindex="0"><span data-text="upload"></span><small data-text="formats"></small></div>
+        <div class="uploaded" id="uploaded" hidden><img class="thumb" id="thumb" alt=""><div class="upload-actions"><div class="file-name" id="filename"></div><button class="small" id="reupload" data-text="reupload"></button></div></div>
+        <p class="note" data-text="uploadNote"></p><button class="text-button" id="example" data-text="example"></button>
+        <div id="white-option" hidden><label class="check"><input type="checkbox" id="white" checked><span data-text="removeWhite"></span></label><p class="note" data-text="blendNote"></p></div>
+      </section>
+      <section class="section" id="single-control"><div class="length-head"><h3><span class="step">02</span><label for="length" data-text="length"></label></h3><div class="value"><input type="number" id="length-number" min="2" max="15" step="0.5" value="5"><span data-text="cm"></span></div></div>
+        <input id="length" type="range" min="2" max="15" step="0.5" value="5"><div class="range-labels"><span>2 <span data-text="cm"></span></span><span>15 <span data-text="cm"></span></span></div><div class="quick" id="quick"></div><p class="note" data-text="lengthNote"></p>
+      </section>
+      <section class="section"><div class="length-head"><h3><span class="step">03</span><label for="rotation" data-text="rotation"></label></h3><output id="angle" for="rotation"></output></div><input type="range" id="rotation" min="-15" max="15" step="1" value="0"><div class="range-labels"><span>−15<span data-text="degree"></span></span><span>+15<span data-text="degree"></span></span></div><p class="note" data-text="rotationNote"></p></section>
+      <button class="primary" id="compare" data-text="compare"></button><div class="actions"><button class="subtle" id="reset" data-text="reset"></button><button class="subtle" id="delete" data-text="delete" disabled></button></div><p class="status" id="status" role="status" aria-live="polite"></p>
+    </aside>
+    <section class="preview-panel" aria-labelledby="preview-title"><div class="preview-header"><h2 id="preview-title" data-text="preview"></h2><span class="badge" id="mode"></span></div>
+      <div class="stage" id="stage"></div><p class="empty" id="empty" data-text="empty"></p><div class="preview-footer"><span data-text="scale"></span><span><span class="dot"></span><span data-text="local"></span></span></div>
+    </section>
+  </main><footer data-text="disclaimer"></footer>
+</div>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+document.title = TEXT.title;
+document.querySelectorAll('[data-text]').forEach(el => el.textContent = TEXT[el.dataset.text]);
+$('thumb').alt = TEXT.thumbnail;
+$('length-number').setAttribute('aria-label', TEXT.length);
+$('drop').setAttribute('aria-label', TEXT.upload);
+// SVG 的每一个坐标单位对应 1 cm，耳垂悬挂点为 (10, 8)。
+const state = {length:5, a:5, b:7, rotation:0, compare:false, image:null, multiply:true};
+let uploadVersion = 0;
+const NS = 'http://www.w3.org/2000/svg';
+function svgNode(tag, attributes={}, content) {
+  const node = document.createElementNS(NS, tag);
+  Object.entries(attributes).forEach(([key,value]) => node.setAttribute(key,value));
+  if (content !== undefined) node.textContent = content;
+  return node;
+}
+function draw(svg, length) {
+  svg.replaceChildren();
+  svg.append(svgNode('title',{},TEXT.svgLabel));
+  // 耳朵外轮廓高约 6 cm、宽约 3.5 cm；肩线在 y=19，即悬挂点下方 11 cm。
+  // 裁切式半侧脸肖像：将视觉重心放在耳垂、耳环与颈肩，使用平涂和克制线条。
+  const portrait = svgNode('g',{fill:'none',stroke:'#a59b8f','stroke-width':'.042','stroke-linecap':'round','stroke-linejoin':'round'});
+  portrait.append(svgNode('path',{d:'M5.5 -2C4.7 .2 5.3 2.6 5 4.3C4.9 5 4.2 5.8 3.95 6.4Q3.85 6.8 4.8 7L4.75 7.65Q5.1 7.95 4.72 8.2C4.45 8.4 4.95 8.8 4.85 9.35C4.8 10.1 5.55 10.65 6.7 10.55L9.25 10.05C10.2 11.4 10.7 13.65 10.1 15.3C9.45 17.15 6.75 17.7 4.4 19C2.9 19.8 1.6 21.1 1.2 23.8L25 23.8L25 19.9C22 18.7 19 18.75 17.5 17.65C15.6 16.15 15 12.3 15.7 8.6C16.8 4.6 17.6 1.1 15.8 -2Z',fill:'#ebe4da',stroke:'none'}));
+  portrait.append(svgNode('path',{d:'M5.5 -2C4.7 .2 5.3 2.6 5 4.3C4.9 5 4.2 5.8 3.95 6.4Q3.85 6.8 4.8 7L4.75 7.65Q5.1 7.95 4.72 8.2C4.45 8.4 4.95 8.8 4.85 9.35C4.8 10.1 5.55 10.65 6.7 10.55C8.25 10.45 9.8 9.65 10.8 8.8'}));
+  portrait.append(svgNode('path',{d:'M9.25 10.05C10.2 11.4 10.7 13.65 10.1 15.3C9.45 17.15 6.75 17.7 4.4 19C2.9 19.8 1.6 21.1 1.2 23.8M15.7 8.6C15 12.3 15.6 16.15 17.5 17.65C19 18.75 22 18.7 25 19.9'}));
+  portrait.append(svgNode('path',{d:'M7.7 -2C8.5 .1 9.5 .7 11.35 1.2C13.3 1.8 13.6 3.9 12.55 6.2C11.95 7.65 12.9 9.1 14.6 9.65C17.9 7.35 20.2 1.75 17.6 -2Z',fill:'#d9d4cb',stroke:'none'}));
+  portrait.append(svgNode('path',{d:'M8.35 -1.5C10.15 1.6 14.65 -.2 14.6 3.9C14.6 6.2 13.15 7.4 14.6 9.65M9.7 -1.4C11.7 .8 15.8 .5 15.55 4.3',stroke:'#c1baae'}));
+  portrait.append(svgNode('path',{d:'M10 8C9.38 8 9.18 7.35 9.05 6.72C8.8 5.67 8.5 4.77 8.5 3.76C8.5 2.6 9.3 2 10.46 2C11.65 2 12 2.85 12 3.95C12 5.2 11.44 6.15 10.94 6.81C10.75 7.45 10.62 8 10 8Z',fill:'#f2ebe1',stroke:'#8e8376','stroke-width':'.055'}));
+  portrait.append(svgNode('path',{d:'M9.2 5.42C8.72 4.02 9.05 2.7 10.42 2.65C11.48 2.61 11.6 3.69 11.09 4.75C10.88 5.17 10.76 5.52 10.83 5.91M10.66 3.18C9.5 3.18 9.42 4.16 9.73 4.88C10.17 4.72 10.59 5.03 10.52 5.55C10.46 6.04 9.87 6.1 9.75 6.7',stroke:'#ada090'}));
+  portrait.append(svgNode('path',{d:'M11.95 10.6C11.85 13 12.65 15.3 14.28 16.95M11.1 18.95C13.25 18.35 15.95 18.55 18.25 19.28M5.16 7.98L5.8 7.94',stroke:'#c1b5a5'}));
+  svg.append(portrait);
+  svg.append(svgNode('path',{d:'M3 19H20.5',stroke:'#b8b2a7','stroke-width':'.025','stroke-dasharray':'.12 .2'}));
+  svg.append(svgNode('text',{x:13,y:20,'font-size':'.34',fill:'#8a8e82'},TEXT.shoulder));
+  svg.append(svgNode('text',{x:16,y:8.12,'font-size':'.34',fill:'#80796e'},TEXT.lobe));
+  svg.append(svgNode('path',{d:'M10.35 8H15.5',stroke:'#b9b0a2','stroke-width':'.025','stroke-dasharray':'.12 .15'}));
+  // 标尺固定位置与刻度；长度标记不受旋转影响，表示设计本身的实际长度。
+  svg.append(svgNode('path',{d:'M4 8V23',stroke:'#aeb5a3','stroke-width':'.045'}));
+  for(let i=0;i<=15;i++) {
+    svg.append(svgNode('path',{d:`M${i%2===0?3.65:3.8} ${8+i}H4.2`,stroke:'#9da58f','stroke-width':'.045'}));
+    if(i%2===0) svg.append(svgNode('text',{x:3.35,y:8+i+.12,'text-anchor':'end','font-size':'.34',fill:'#7d8571'},i));
+  }
+  svg.append(svgNode('text',{x:4,y:24.1,'text-anchor':'middle','font-size':'.33',fill:'#818977'},TEXT.reference));
+  const marker = svgNode('g',{'data-marker':length});
+  marker.append(svgNode('path',{d:`M3.75 ${8+length}H5.05`,stroke:'#596350','stroke-width':'.09'}));
+  marker.append(svgNode('rect',{x:.05,y:7.63+length,width:3.1,height:.74,rx:.15,fill:'#596350'}));
+  marker.append(svgNode('text',{x:1.6,y:8.13+length,'text-anchor':'middle','font-size':'.43',fill:'#fff'},`${length} ${TEXT.cm}`));
+  svg.append(marker);
+  svg.append(svgNode('circle',{cx:10,cy:8,r:.09,fill:'#596350'}));
+  if(state.image) {
+    const width = length * state.image.ratio;
+    // 图像绕顶部中心旋转；宽高使用同一缩放率，保持原始比例。
+    const design = svgNode('image',{href:state.image.url,x:10-width/2,y:8,width,height:length,preserveAspectRatio:'xMidYMin meet',transform:`rotate(${state.rotation} 10 8)`,'data-design':''});
+    design.style.mixBlendMode = state.image.opaque && state.multiply ? 'multiply' : 'normal';
+    svg.append(design);
+  }
+}
+function makeView(key) {
+  const view = document.createElement('div');view.className='view';
+  const svg = svgNode('svg',{viewBox:'0 0 24 26',class:'art',role:'img','aria-label':TEXT.svgLabel});
+  view.append(svg);view.dataset.key=key;
+  if(key!=='length') {
+    const box=document.createElement('div');box.className='compare-control';
+    box.innerHTML=`<div class="length-head"><label class="compare-label" for="${key}-range"></label><div class="value"><input id="${key}-number" type="number" min="2" max="15" step="0.5"><span></span></div></div><input id="${key}-range" type="range" min="2" max="15" step="0.5"><div class="range-labels"><span>2 ${TEXT.cm}</span><span>15 ${TEXT.cm}</span></div>`;
+    box.querySelector('label').textContent=TEXT[key];box.querySelector('.value span').textContent=TEXT.cm;
+    view.append(box);
+    box.querySelectorAll('input').forEach(input=>{input.value=state[key];input.setAttribute('aria-label',`${TEXT[key]} ${TEXT.lengthLabel}`);bindLength(input,key);});
+  }
+  return view;
+}
+function buildStage(){
+  $('stage').classList.toggle('compare',state.compare);
+  $('stage').replaceChildren(...(state.compare?['a','b']:['length']).map(makeView));
+  render();
+}
+function render(){
+  $('single-control').hidden=state.compare;
+  $('compare').textContent=state.compare?TEXT.back:TEXT.compare;
+  $('mode').textContent=state.compare?TEXT.comparison:TEXT.single;
+  $('angle').textContent=`${state.rotation>0?'+':''}${state.rotation}${TEXT.degree}`;
+  $('rotation').value=state.rotation;
+  $('length').value=state.length;
+  if(document.activeElement!==$('length-number')) $('length-number').value=state.length;
+  document.querySelectorAll('.quick button').forEach(button=>{const active=Number(button.dataset.value)===state.length;button.classList.toggle('active',active);button.setAttribute('aria-pressed',active);});
+  $('empty').hidden=!!state.image;$('drop').hidden=!!state.image;$('uploaded').hidden=!state.image;$('delete').disabled=!state.image;
+  $('white-option').hidden=!state.image?.opaque;
+  // 两个视图共享相同边界；异常宽幅设计或旋转后也不会被视口裁掉。
+  let minX=0,maxX=24,minY=0,maxY=26;
+  if(state.image){
+    const radians=state.rotation*Math.PI/180;
+    for(const length of (state.compare?[state.a,state.b]:[state.length])){
+      const halfWidth=length*state.image.ratio/2;
+      for(const x of [-halfWidth,halfWidth])for(const y of [0,length]){
+        const px=10+x*Math.cos(radians)-y*Math.sin(radians),py=8+x*Math.sin(radians)+y*Math.cos(radians);
+        minX=Math.min(minX,px-.5);maxX=Math.max(maxX,px+.5);minY=Math.min(minY,py-.5);maxY=Math.max(maxY,py+.5);
+      }
+    }
+  }
+  document.querySelectorAll('.view').forEach(view=>{
+    const key=view.dataset.key;
+    view.querySelectorAll('input').forEach(input=>{if(document.activeElement!==input) input.value=state[key];});
+    const svg=view.querySelector('svg');
+    svg.setAttribute('viewBox',`${minX} ${minY} ${maxX-minX} ${maxY-minY}`);
+    draw(svg,state[key]);
+  });
+}
+function normalized(value){return Math.min(15,Math.max(2,Math.round(value*2)/2));}
+function bindLength(input,key){
+  input.addEventListener('input',()=>{if(input.value===''||!Number.isFinite(input.valueAsNumber))return;state[key]=normalized(input.valueAsNumber);render();});
+  input.addEventListener('change',()=>{input.value=state[key];render();});
+  input.addEventListener('blur',()=>{input.value=state[key];});
+}
+bindLength($('length'),'length');bindLength($('length-number'),'length');
+[3,5,7,10,12].forEach(value=>{const button=document.createElement('button');button.textContent=`${value} ${TEXT.cm}`;button.dataset.value=value;button.onclick=()=>{state.length=value;render();};$('quick').append(button);});
+$('rotation').oninput=event=>{state.rotation=Number(event.target.value);render();};
+$('white').onchange=event=>{state.multiply=event.target.checked;render();};
+$('compare').onclick=()=>{state.compare=!state.compare;if(state.compare){state.a=5;state.b=7;}buildStage();};
+function status(message,error=false){$('status').textContent=message;$('status').classList.toggle('error',error);}
+$('reset').onclick=()=>{state.length=5;state.rotation=0;state.compare=false;buildStage();status(TEXT.resetDone);};
+$('delete').onclick=()=>{uploadVersion++;state.image=null;$('thumb').removeAttribute('src');$('filename').textContent='';$('file').value='';render();status(TEXT.deleted);};
+function setDesign(image,name,message){state.image=image;state.multiply=true;$('white').checked=true;$('thumb').src=image.url;$('filename').textContent=name;render();status(message);}
+$('example').onclick=()=>{
+  uploadVersion++;
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 170"><g fill="none" stroke="#454940" stroke-width="3"><circle cx="40" cy="7" r="5.5"/><path d="M40 13C35 43 3 87 3 125a37 42 0 0 0 74 0C77 87 45 43 40 13Z"/><path d="M40 43C33 68 14 102 14 126a26 30 0 0 0 52 0C66 102 47 68 40 43Z"/></g></svg>';
+  setDesign({url:'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg),ratio:80/170,opaque:false},TEXT.sample,TEXT.original);
+};
+function chooseFile(){$('file').click();}
+$('drop').onclick=chooseFile;$('reupload').onclick=chooseFile;
+$('drop').onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();chooseFile();}};
+$('file').onchange=event=>{const file=event.target.files[0];if(file)loadFile(file);event.target.value='';};
+// 整个上传区域支持拖放；阻止浏览器直接打开拖入的文件。
+const uploadSection=$('drop').closest('section');
+uploadSection.addEventListener('dragover',event=>{event.preventDefault();$('drop').classList.add('dragging');});
+uploadSection.addEventListener('dragleave',()=> $('drop').classList.remove('dragging'));
+uploadSection.addEventListener('drop',event=>{event.preventDefault();$('drop').classList.remove('dragging');const file=event.dataTransfer.files[0];if(file)loadFile(file);});
+window.addEventListener('dragover',event=>event.preventDefault());
+window.addEventListener('drop',event=>event.preventDefault());
+async function loadFile(file){
+  const version=++uploadVersion;
+  if(!['image/png','image/jpeg'].includes(file.type) && !(file.type==='' && /\.(png|jpe?g)$/i.test(file.name))){status(TEXT.invalid,true);return;}
+  status(TEXT.processing);
+  const source=URL.createObjectURL(file);
+  try {
+    const img=new Image();img.src=source;await img.decode();
+    if(version!==uploadVersion)return;
+    // 先限制像素规模，再检查透明度并计算有效像素最小外接矩形。
+    const factor=Math.min(1,1000/Math.max(img.naturalWidth,img.naturalHeight));
+    const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.naturalWidth*factor));canvas.height=Math.max(1,Math.round(img.naturalHeight*factor));
+    const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,canvas.width,canvas.height);
+    const {data}=ctx.getImageData(0,0,canvas.width,canvas.height);
+    let transparent=false;for(let i=3;i<data.length;i+=4){if(data[i]<255){transparent=true;break;}}
+    let left=canvas.width,top=canvas.height,right=-1,bottom=-1;
+    for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++){
+      const i=(y*canvas.width+x)*4;
+      const content=transparent?data[i+3]>0:!(data[i]>245&&data[i+1]>245&&data[i+2]>245);
+      if(content){left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}
+    }
+    let output=canvas;
+    const cropped=right>=left&&bottom>=top&&(left>0||top>0||right<canvas.width-1||bottom<canvas.height-1);
+    if(cropped){output=document.createElement('canvas');output.width=right-left+1;output.height=bottom-top+1;output.getContext('2d').drawImage(canvas,left,top,output.width,output.height,0,0,output.width,output.height);}
+    if(version!==uploadVersion)return;
+    setDesign({url:output.toDataURL('image/png'),ratio:output.width/output.height,opaque:!transparent},file.name,cropped?TEXT.ready:TEXT.original);
+  } catch {if(version===uploadVersion)status(TEXT.failed,true);}
+  finally {URL.revokeObjectURL(source);}
+}
+buildStage();
+</script>
+</body>
+</html>
