@@ -12,13 +12,13 @@ const TEXT = {
   design: '我的耳环设计', upload: '＋ 上传耳环设计图', formats: 'PNG / JPG / JPEG · 点击或拖拽',
   reupload: '重新上传', example: '使用示例耳环', sample: '水滴形示例耳环', thumbnail: '耳环设计缩略图',
   uploadNote: '请让图片顶端对齐耳环的悬挂点，并完整包含耳环最低处。推荐使用透明背景 PNG。',
-  anchor: '设置图片挂点', anchorTitle: '设置耳环连接点', anchorNote: '点击耳环实际连接耳垂的位置。长度按该点到图片底端计算；旋转也以该点为中心。', anchorDefault: '恢复顶部中心', anchorApply: '应用挂点', anchorDone: '已更新图片挂点，耳环按新挂点对齐耳垂。', anchorLimit: '请在图片底端上方选择挂点，预留至少 5% 的高度。', anchorCanvas: '点击或用方向键调整耳环连接点', anchorKeyboard: '也可用方向键微调，按住 Shift 加快。', moveLobe: '调整耳垂位置', finishLobe: '完成定位', lobeDefault: '恢复默认位置', lobeHint: '点击耳朵上的佩戴位置；也可聚焦预览后用方向键微调。A/B 共用同一位置。', lobeDone: '已更新耳垂位置。',
+  anchor: '设置挂点与最低点', anchorTitle: '标定耳环长度', anchorNote: '分别点击悬挂点和耳环最低点。厘米长度对应两点的垂直距离，忽略上下留白；耳环仍绕悬挂点旋转。', anchorDefault: '恢复默认两点', anchorApply: '应用标定', anchorDone: '已按悬挂点至最低点的距离更新比例。', anchorLimit: '最低点须在悬挂点下方，两点至少相隔图片高度的 5%。', anchorCanvas: '点击或用方向键调整当前标定点', anchorKeyboard: '先选择要设置的点，再点击图片；可用方向键微调，按住 Shift 加快。', selectAnchor: '① 悬挂点', selectTip: '② 最低点', anchorMarker: '①', tipMarker: '②', moveLobe: '调整耳垂位置', finishLobe: '完成定位', lobeDefault: '恢复默认位置', lobeHint: '点击耳朵上的佩戴位置；也可聚焦预览后用方向键微调。A/B 共用同一位置。', lobeDone: '已更新耳垂位置。',
   cutout: '一键去白底', repair: '编辑图片', editorTitle: '图片编辑', editorNote: '支持裁切、旋转、镜像和去底修补。去底适合白色、浅灰色背景；误删的细节可用恢复画笔补回。',
-  crop: '裁切', cropApply: '确认裁切', cropHint: '在图上拖出保留区域，再点击确认裁切。若原挂点被裁掉，将改为顶部中心。', cropSmall: '请拖出至少 4 × 4 像素的区域。', geometryDone: '已更新图片；可撤销，满意后应用到预览。', anchorReset: '原挂点已不在有效区域，已恢复顶部中心。', rotateLeft: '左转 90°', rotateRight: '右转 90°', mirrorX: '水平镜像', mirrorY: '垂直镜像',
+  crop: '裁切', cropApply: '确认裁切', cropHint: '在图上拖出保留区域，再点击确认裁切。标定点被裁掉时会恢复默认两点，可重新标定。', cropSmall: '请拖出至少 4 × 4 像素的区域。', geometryDone: '已更新图片；可撤销，满意后应用到预览。', anchorReset: '变换后的两点无法用于长度标定，已恢复默认两点；请重新标定。', rotateLeft: '左转 90°', rotateRight: '右转 90°', mirrorX: '水平镜像', mirrorY: '垂直镜像',
   sampleColor: '吸取底色', removeColor: '去除所选底色', colorEmpty: '尚未取色', colorPicked: '已取色，请调整容差后点击「去除所选底色」。', colorHint: '点击图片背景取色；不会立即删除像素。', colorTransparent: '这里已经透明，请点击仍然可见的背景。', colorAll: '清除整张图的相近颜色（含镂空）', colorToleranceNote: '容差 0 只匹配相同颜色；数值越大，允许的颜色偏差越大。调整后点击去除；删多了可撤销。', colorDone: '已清除所选底色范围，误删的细节可撤销或恢复。', colorNone: '此范围内没有可继续清除的像素，请增大容差或重新取色。',
   auto: '自动去白底', tolerance: '颜色容差', wand: '点去背景', erase: '擦除', restore: '恢复', brush: '画笔大小', undo: '撤销', restoreImage: '恢复原图', showOriginal: '查看原图', showResult: '查看结果', apply: '应用到预览', cancel: '取消', download: '下载透明 PNG', editorCanvas: '图片修补画布',
   cutoutDone: '已应用图片，按当前挂点与长度更新佩戴效果。', autoDone: '已清除边缘相连的浅色背景；镂空内的背景可点击去除。', noBackground: '未发现可清除的浅色背景，请调整强度或使用擦除画笔。', pickWhite: '请点击白色或浅灰色背景；深色区域可用擦除画笔。', emptyCutout: '没有保留可见内容，已撤回操作。', editorReady: '可点击清除背景，或选择画笔修补。', originalView: '当前为原图对比，切回结果后可继续修补。', editorFailed: '图片暂时无法编辑，请重新上传后重试。', downloadName: 'earring-transparent.png', brushUnit: 'px',
-  length: '耳环实际长度', lengthNote: '长度指从悬挂点到耳环最低点。', rotation: '旋转', rotationNote: '以耳垂悬挂点为中心调整角度。',
+  length: '耳环实际长度', lengthNote: '长度指悬挂点到最低点的垂直距离，可在图片中手动标定两点。', rotation: '旋转', rotationNote: '以耳垂悬挂点为中心调整角度。',
   compare: '比较两个长度', back: '返回单个预览', reset: '重置', delete: '删除设计',
   empty: '上传设计后，这里会显示佩戴效果', reference: '视觉比例参考', scale: '1 单位 = 1 cm',
   lobe: '耳垂悬挂点', shoulder: '肩线 · 耳垂下方约 11 cm', local: '图片仅在本地处理',
@@ -78,7 +78,7 @@ const TEXT = {
   <div class="editor-tools"><button id="undo" data-text="undo"></button><button id="restore-image" data-text="restoreImage"></button><button id="original-view" data-text="showOriginal" aria-pressed="false"></button></div>
   <div class="editor-bottom"><button id="download" data-text="download"></button><div><button id="cancel-edit" data-text="cancel"></button><button class="primary" id="apply-edit" data-text="apply"></button></div></div>
 </dialog>
-<dialog id="anchor-dialog" aria-labelledby="anchor-title" aria-describedby="anchor-note"><h2 id="anchor-title" data-text="anchorTitle"></h2><p class="note" id="anchor-note" data-text="anchorNote"></p><p class="note" data-text="anchorKeyboard"></p><div class="canvas-wrap"><canvas id="anchor-canvas" tabindex="0"></canvas></div><p class="editor-status" id="anchor-status" role="status" aria-live="polite"></p><div class="anchor-actions"><button class="small" id="anchor-default" data-text="anchorDefault"></button><div><button id="anchor-cancel" data-text="cancel"></button><button class="primary" id="anchor-apply" data-text="anchorApply"></button></div></div></dialog>
+<dialog id="anchor-dialog" aria-labelledby="anchor-title" aria-describedby="anchor-note"><h2 id="anchor-title" data-text="anchorTitle"></h2><p class="note" id="anchor-note" data-text="anchorNote"></p><p class="note" data-text="anchorKeyboard"></p><div class="editor-tools"><button id="select-anchor" data-text="selectAnchor" aria-pressed="true"></button><button id="select-tip" data-text="selectTip" aria-pressed="false"></button></div><div class="canvas-wrap"><canvas id="anchor-canvas" tabindex="0"></canvas></div><p class="editor-status" id="anchor-status" role="status" aria-live="polite"></p><div class="anchor-actions"><button class="small" id="anchor-default" data-text="anchorDefault"></button><div><button id="anchor-cancel" data-text="cancel"></button><button class="primary" id="anchor-apply" data-text="anchorApply"></button></div></div></dialog>
 <script>
 'use strict';
 const $ = id => document.getElementById(id);
@@ -138,21 +138,36 @@ function draw(svg, length) {
   }
   if(state.positioning){svg.append(svgNode('circle',{cx:lx,cy:ly,r:.32,fill:'white',stroke:'#596350','stroke-width':'.07','pointer-events':'none'}));svg.append(svgNode('path',{d:`M${lx-.5} ${ly}h1M${lx} ${ly-.5}v1`,stroke:'#596350','stroke-width':'.06','pointer-events':'none'}));}
 }
-function imageGeometry(length){const anchor=state.image.anchor||{x:.5,y:0};const height=length/(1-anchor.y),width=height*state.image.ratio;return{width,height,x:state.lobe.x-anchor.x*width,y:state.lobe.y-anchor.y*height};}
+function imageGeometry(length){const anchor=state.image.anchor||{x:.5,y:0},tip=state.image.tip||{x:.5,y:1};const height=length/(tip.y-anchor.y),width=height*state.image.ratio;return{width,height,x:state.lobe.x-anchor.x*width,y:state.lobe.y-anchor.y*height};}
 // 耳垂位置是预览坐标，图片挂点是图像比例坐标；A/B 共用两者。
 function setLobe(x,y){state.lobe={x:Math.round(Math.max(6,Math.min(15,x))*100)/100,y:Math.round(Math.max(2,Math.min(11,y))*100)/100};render();status(TEXT.lobeDone);}
 $('move-lobe').onclick=()=>{state.positioning=!state.positioning;render();};
 $('lobe-default').onclick=()=>{state.lobe={x:10,y:8};state.positioning=false;render();};
-let anchorDraft=null,anchorImage=null;
+let anchorDraft=null,tipDraft=null,anchorImage=null,calibrationPoint='anchor';
 const anchorCanvas=$('anchor-canvas');anchorCanvas.setAttribute('aria-label',TEXT.anchorCanvas);
-function paintAnchor(){const ctx=anchorCanvas.getContext('2d');ctx.clearRect(0,0,anchorCanvas.width,anchorCanvas.height);ctx.drawImage(anchorImage,0,0);const scale=anchorCanvas.width/(anchorCanvas.getBoundingClientRect().width||anchorCanvas.width),x=anchorDraft.x*anchorCanvas.width,y=anchorDraft.y*anchorCanvas.height;ctx.beginPath();ctx.arc(x,y,7*scale,0,Math.PI*2);ctx.strokeStyle='white';ctx.lineWidth=4*scale;ctx.stroke();ctx.strokeStyle='#596350';ctx.lineWidth=2*scale;ctx.stroke();ctx.beginPath();ctx.moveTo(x-12*scale,y);ctx.lineTo(x+12*scale,y);ctx.moveTo(x,y-12*scale);ctx.lineTo(x,y+12*scale);ctx.stroke();}
-$('anchor').onclick=async()=>{const design=state.image;if(!design)return;try{const image=new Image();image.src=design.url;await image.decode();if(design!==state.image)return;anchorImage=image;anchorDraft={...(design.anchor||{x:.5,y:0})};anchorCanvas.width=image.naturalWidth;anchorCanvas.height=image.naturalHeight;$('anchor-status').textContent='';$('anchor-dialog').showModal();paintAnchor();}catch{status(TEXT.editorFailed,true);}};
-function updateAnchor(x,y){anchorDraft={x:Math.max(0,Math.min(1,x)),y:Math.max(0,Math.min(.95,y))};$('anchor-status').textContent=y>.95?TEXT.anchorLimit:'';paintAnchor();}
+function paintAnchor(){
+  // 小尺寸设计图也放大至可点选的尺寸，同时保持画布显示比例。
+  anchorCanvas.style.width=Math.min(anchorCanvas.parentElement.clientWidth-26,Math.min(innerHeight*.38,420)*anchorCanvas.width/anchorCanvas.height)+'px';
+  const ctx=anchorCanvas.getContext('2d'),w=anchorCanvas.width,h=anchorCanvas.height,scale=w/(anchorCanvas.getBoundingClientRect().width||w);
+  ctx.clearRect(0,0,w,h);ctx.drawImage(anchorImage,0,0);
+  ctx.setLineDash([4*scale,4*scale]);ctx.strokeStyle='#596350';ctx.lineWidth=scale;ctx.beginPath();ctx.moveTo(anchorDraft.x*w,anchorDraft.y*h);ctx.lineTo(anchorDraft.x*w,tipDraft.y*h);ctx.lineTo(tipDraft.x*w,tipDraft.y*h);ctx.stroke();ctx.setLineDash([]);
+  for(const [key,point,label] of [['anchor',anchorDraft,TEXT.anchorMarker],['tip',tipDraft,TEXT.tipMarker]]){
+    const x=point.x*w,y=point.y*h,color=key==='anchor'?'#596350':'#88613e';
+    ctx.beginPath();ctx.arc(x,y,7*scale,0,Math.PI*2);ctx.strokeStyle='white';ctx.lineWidth=4*scale;ctx.stroke();ctx.strokeStyle=color;ctx.lineWidth=2*scale;ctx.stroke();ctx.beginPath();ctx.moveTo(x-12*scale,y);ctx.lineTo(x+12*scale,y);ctx.moveTo(x,y-12*scale);ctx.lineTo(x,y+12*scale);ctx.stroke();
+    ctx.font=`${15*scale}px sans-serif`;ctx.fillStyle=color;ctx.textBaseline='middle';ctx.fillText(label,Math.max(0,Math.min(w-18*scale,x+15*scale)),Math.max(10*scale,Math.min(h-10*scale,y)));
+    const button=$('select-'+key);button.classList.toggle('active',calibrationPoint===key);button.setAttribute('aria-pressed',calibrationPoint===key);
+  }
+  $('anchor-apply').disabled=tipDraft.y-anchorDraft.y<.05-1e-9;
+}
+$('anchor').onclick=async()=>{const design=state.image;if(!design)return;try{const image=new Image();image.src=design.url;await image.decode();if(design!==state.image)return;anchorImage=image;anchorDraft={...(design.anchor||{x:.5,y:0})};tipDraft={...(design.tip||{x:.5,y:1})};calibrationPoint='anchor';anchorCanvas.width=image.naturalWidth;anchorCanvas.height=image.naturalHeight;$('anchor-status').textContent='';$('anchor-dialog').showModal();paintAnchor();}catch{status(TEXT.editorFailed,true);}};
+function updateAnchor(x,y){const point={x:Math.max(0,Math.min(1,x)),y:Math.max(0,Math.min(1,y))};if(calibrationPoint==='anchor')anchorDraft=point;else tipDraft=point;$('anchor-status').textContent=tipDraft.y-anchorDraft.y<.05-1e-9?TEXT.anchorLimit:'';paintAnchor();}
 anchorCanvas.addEventListener('pointerdown',event=>{event.preventDefault();anchorCanvas.focus();const bounds=anchorCanvas.getBoundingClientRect();updateAnchor((event.clientX-bounds.left)/bounds.width,(event.clientY-bounds.top)/bounds.height);});
-anchorCanvas.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;event.preventDefault();const step=event.shiftKey?.05:.005;updateAnchor(anchorDraft.x+(event.key==='ArrowRight'?step:event.key==='ArrowLeft'?-step:0),anchorDraft.y+(event.key==='ArrowDown'?step:event.key==='ArrowUp'?-step:0));});
-$('anchor-default').onclick=()=>updateAnchor(.5,0);$('anchor-cancel').onclick=()=>$('anchor-dialog').close();
-$('anchor-apply').onclick=()=>{state.image.anchor={...anchorDraft};render();$('anchor-dialog').close();status(TEXT.anchorDone);};
-$('anchor-dialog').addEventListener('close',()=>{anchorDraft=null;anchorImage=null;anchorCanvas.width=1;anchorCanvas.height=1;});
+anchorCanvas.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;event.preventDefault();const step=event.shiftKey?.05:.005,point=calibrationPoint==='anchor'?anchorDraft:tipDraft;updateAnchor(point.x+(event.key==='ArrowRight'?step:event.key==='ArrowLeft'?-step:0),point.y+(event.key==='ArrowDown'?step:event.key==='ArrowUp'?-step:0));});
+['anchor','tip'].forEach(key=>$('select-'+key).onclick=()=>{calibrationPoint=key;paintAnchor();});
+$('anchor-default').onclick=()=>{anchorDraft={x:.5,y:0};tipDraft={x:.5,y:1};$('anchor-status').textContent='';paintAnchor();};$('anchor-cancel').onclick=()=>$('anchor-dialog').close();
+$('anchor-apply').onclick=()=>{if(tipDraft.y-anchorDraft.y<.05-1e-9)return;state.image.anchor={...anchorDraft};state.image.tip={...tipDraft};render();$('anchor-dialog').close();status(TEXT.anchorDone);};
+$('anchor-dialog').addEventListener('close',()=>{anchorDraft=null;tipDraft=null;anchorImage=null;anchorCanvas.width=1;anchorCanvas.height=1;});
+window.addEventListener('resize',()=>{if(anchorImage&&$('anchor-dialog').open)paintAnchor();});
 function makeView(key) {
   const view = document.createElement('div');view.className='view';
   const svg = svgNode('svg',{viewBox:'0 0 24 26',class:'art',role:'img','aria-label':TEXT.svgLabel});
@@ -272,7 +287,7 @@ const editContext=editCanvas.getContext('2d');
 editCanvas.setAttribute('aria-label',TEXT.editorCanvas);
 function editorStatus(message){$('editor-status').textContent=message;}
 function alphaOf(pixels){const alpha=new Uint8ClampedArray(pixels.data.length/4);for(let i=0;i<alpha.length;i++)alpha[i]=pixels.data[i*4+3];return alpha;}
-function snapshot(){return{alpha:edit.alpha.slice(),original:edit.original,width:edit.width,height:edit.height,anchor:{...edit.anchor}};}
+function snapshot(){return{alpha:edit.alpha.slice(),original:edit.original,width:edit.width,height:edit.height,anchor:{...edit.anchor},tip:{...edit.tip}};}
 function remember(){edit.history.push(snapshot());if(edit.history.length>12)edit.history.shift();}
 function restoreSnapshot(saved){Object.assign(edit,saved);edit.crop=null;edit.sample=null;editCanvas.width=edit.width;editCanvas.height=edit.height;}
 function resultPixels(){const pixels=new ImageData(new Uint8ClampedArray(edit.original.data),edit.width,edit.height);for(let i=0;i<edit.alpha.length;i++)pixels.data[i*4+3]=edit.alpha[i];return pixels;}
@@ -297,9 +312,9 @@ async function openEditor(automatic){
     if(state.image!==design)return;
     editCanvas.width=image.naturalWidth;editCanvas.height=image.naturalHeight;editContext.clearRect(0,0,editCanvas.width,editCanvas.height);editContext.drawImage(image,0,0);
     const pixels=editContext.getImageData(0,0,editCanvas.width,editCanvas.height);
-    edit={original:design.originalPixels||pixels,alpha:alphaOf(pixels),width:editCanvas.width,height:editCanvas.height,anchor:{...(design.anchor||{x:.5,y:0})},history:[],tool:'wand',showOriginal:false,stroke:null,crop:null,sample:null};
+    edit={original:design.originalPixels||pixels,alpha:alphaOf(pixels),width:editCanvas.width,height:editCanvas.height,anchor:{...(design.anchor||{x:.5,y:0})},tip:{...(design.tip||{x:.5,y:1})},history:[],tool:'wand',showOriginal:false,stroke:null,crop:null,sample:null};
     $('color-all').checked=false;
-    edit.root=design.editRoot||{original:edit.original,width:edit.width,height:edit.height,anchor:{...edit.anchor}};
+    edit.root=design.editRoot||{original:edit.original,width:edit.width,height:edit.height,anchor:{...edit.anchor},tip:{...edit.tip}};
     $('editor').showModal();editorStatus(TEXT.editorReady);paintEditor();if(automatic)removeBackground();
   }catch{status(TEXT.editorFailed,true);}
 }
@@ -353,12 +368,12 @@ $('cutout').onclick=()=>openEditor(true);$('repair').onclick=()=>openEditor(fals
 $('auto-cut').onclick=()=>removeBackground();
 $('remove-color').onclick=()=>{if(edit.sample)removeBackground(edit.sample.index,true);};
 $('undo').onclick=()=>{if(edit.history.length){restoreSnapshot(edit.history.pop());paintEditor();editorStatus(TEXT.editorReady);}};
-$('restore-image').onclick=()=>{remember();restoreSnapshot({...edit.root,anchor:{...edit.root.anchor},alpha:alphaOf(edit.root.original)});paintEditor();editorStatus(TEXT.editorReady);};
+$('restore-image').onclick=()=>{remember();restoreSnapshot({...edit.root,anchor:{...edit.root.anchor},tip:{...edit.root.tip},alpha:alphaOf(edit.root.original)});paintEditor();editorStatus(TEXT.editorReady);};
 $('original-view').onclick=()=>{edit.showOriginal=!edit.showOriginal;paintEditor();editorStatus(edit.showOriginal?TEXT.originalView:TEXT.editorReady);};
 function updateEditorSettings(){$('tolerance-value').textContent=$('tolerance').value;$('brush-value').textContent=`${$('brush').value} ${TEXT.brushUnit}`;}
 $('tolerance').oninput=updateEditorSettings;$('brush').oninput=updateEditorSettings;updateEditorSettings();
 function exportCanvas(){const canvas=document.createElement('canvas');canvas.width=edit.width;canvas.height=edit.height;canvas.getContext('2d').putImageData(resultPixels(),0,0);return canvas;}
-$('apply-edit').onclick=()=>{if(!edit.alpha.some(value=>value>0)){editorStatus(TEXT.emptyCutout);return;}const url=exportCanvas().toDataURL('image/png');state.image={...state.image,url,ratio:edit.width/edit.height,anchor:{...edit.anchor},opaque:false,originalPixels:edit.original,editRoot:edit.root};$('thumb').src=url;render();$('editor').close();status(TEXT.cutoutDone);};
+$('apply-edit').onclick=()=>{if(!edit.alpha.some(value=>value>0)){editorStatus(TEXT.emptyCutout);return;}const url=exportCanvas().toDataURL('image/png');state.image={...state.image,url,ratio:edit.width/edit.height,anchor:{...edit.anchor},tip:{...edit.tip},opaque:false,originalPixels:edit.original,editRoot:edit.root};$('thumb').src=url;render();$('editor').close();status(TEXT.cutoutDone);};
 $('download').onclick=()=>{const link=document.createElement('a');link.href=exportCanvas().toDataURL('image/png');link.download=TEXT.downloadName;link.click();};
 $('cancel-edit').onclick=()=>$('editor').close();
 $('editor').addEventListener('close',()=>{edit=null;editCanvas.width=1;editCanvas.height=1;});
@@ -373,14 +388,12 @@ function transformPixels(kind,rect){
     const from=sy*w+sx,to=y*nw+x;original.data.set(edit.original.data.subarray(from*4,from*4+4),to*4);alpha[to]=edit.alpha[from];
   }
   if(!alpha.some(value=>value>0)){editorStatus(TEXT.emptyCutout);return;}
-  const old=edit.anchor;let anchor={...old};
-  if(rect)anchor={x:(old.x*w-rect.x)/nw,y:(old.y*h-rect.y)/nh};
-  else if(kind==='right')anchor={x:1-old.y,y:old.x};
-  else if(kind==='left')anchor={x:old.y,y:1-old.x};
-  else if(kind==='mirrorX')anchor.x=1-old.x;else if(kind==='mirrorY')anchor.y=1-old.y;
-  const invalid=anchor.x<0||anchor.x>1||anchor.y<0||anchor.y>.95;
-  if(invalid)anchor={x:.5,y:0};
-  remember();restoreSnapshot({original,alpha,width:nw,height:nh,anchor});paintEditor();editorStatus(invalid?TEXT.anchorReset:TEXT.geometryDone);
+  function mapPoint(point){if(rect)return{x:(point.x*w-rect.x)/nw,y:(point.y*h-rect.y)/nh};if(kind==='right')return{x:1-point.y,y:point.x};if(kind==='left')return{x:point.y,y:1-point.x};if(kind==='mirrorX')return{x:1-point.x,y:point.y};return{x:point.x,y:1-point.y};}
+  let anchor=mapPoint(edit.anchor),tip=mapPoint(edit.tip);
+  const outside=point=>point.x<0||point.x>1||point.y<0||point.y>1;
+  const invalid=outside(anchor)||outside(tip)||tip.y-anchor.y<.05-1e-9;
+  if(invalid){anchor={x:.5,y:0};tip={x:.5,y:1};}
+  remember();restoreSnapshot({original,alpha,width:nw,height:nh,anchor,tip});paintEditor();editorStatus(invalid?TEXT.anchorReset:TEXT.geometryDone);
 }
 $('crop-apply').onclick=()=>{const rect=cropRect();if(rect.width<4||rect.height<4){editorStatus(TEXT.cropSmall);return;}transformPixels('crop',rect);};
 document.querySelectorAll('[data-transform]').forEach(button=>button.onclick=()=>transformPixels(button.dataset.transform));
