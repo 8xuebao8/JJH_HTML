@@ -12,9 +12,11 @@ const TEXT = {
   design: '我的耳环设计', upload: '＋ 上传耳环设计图', formats: 'PNG / JPG / JPEG · 点击或拖拽',
   reupload: '重新上传', example: '使用示例耳环', sample: '水滴形示例耳环', thumbnail: '耳环设计缩略图',
   uploadNote: '请让图片顶端对齐耳环的悬挂点，并完整包含耳环最低处。推荐使用透明背景 PNG。',
-  cutout: '一键去白底', repair: '修补图片', editorTitle: '去底与修补', editorNote: '适合白色、浅灰色背景。先自动去底，再点击镂空处，或用画笔修补。白色珍珠和高光若被误删，可用恢复画笔补回。',
+  anchor: '设置图片挂点', anchorTitle: '设置耳环连接点', anchorNote: '点击耳环实际连接耳垂的位置。长度按该点到图片底端计算；旋转也以该点为中心。', anchorDefault: '恢复顶部中心', anchorApply: '应用挂点', anchorDone: '已更新图片挂点，耳环按新挂点对齐耳垂。', anchorLimit: '请在图片底端上方选择挂点，预留至少 5% 的高度。', anchorCanvas: '点击或用方向键调整耳环连接点', anchorKeyboard: '也可用方向键微调，按住 Shift 加快。', moveLobe: '调整耳垂位置', finishLobe: '完成定位', lobeDefault: '恢复默认位置', lobeHint: '点击耳朵上的佩戴位置；也可聚焦预览后用方向键微调。A/B 共用同一位置。', lobeDone: '已更新耳垂位置。',
+  cutout: '一键去白底', repair: '编辑图片', editorTitle: '图片编辑', editorNote: '支持裁切、旋转、镜像和去底修补。去底适合白色、浅灰色背景；误删的细节可用恢复画笔补回。',
+  crop: '裁切', cropApply: '确认裁切', cropHint: '在图上拖出保留区域，再点击确认裁切。若原挂点被裁掉，将改为顶部中心。', cropSmall: '请拖出至少 4 × 4 像素的区域。', geometryDone: '已更新图片；可撤销，满意后应用到预览。', anchorReset: '原挂点已不在有效区域，已恢复顶部中心。', rotateLeft: '左转 90°', rotateRight: '右转 90°', mirrorX: '水平镜像', mirrorY: '垂直镜像',
   auto: '自动去白底', tolerance: '去底强度', wand: '点去背景', erase: '擦除', restore: '恢复', brush: '画笔大小', undo: '撤销', restoreImage: '恢复原图', showOriginal: '查看原图', showResult: '查看结果', apply: '应用到预览', cancel: '取消', download: '下载透明 PNG', editorCanvas: '图片修补画布',
-  cutoutDone: '已应用透明图片，保留原有长度和悬挂位置。', autoDone: '已清除边缘相连的浅色背景；镂空内的背景可点击去除。', noBackground: '未发现可清除的浅色背景，请调整强度或使用擦除画笔。', pickWhite: '请点击白色或浅灰色背景；深色区域可用擦除画笔。', emptyCutout: '没有保留可见内容，已撤回操作。', editorReady: '可点击清除背景，或选择画笔修补。', originalView: '当前为原图对比，切回结果后可继续修补。', editorFailed: '图片暂时无法编辑，请重新上传后重试。', downloadName: 'earring-transparent.png', brushUnit: 'px',
+  cutoutDone: '已应用图片，按当前挂点与长度更新佩戴效果。', autoDone: '已清除边缘相连的浅色背景；镂空内的背景可点击去除。', noBackground: '未发现可清除的浅色背景，请调整强度或使用擦除画笔。', pickWhite: '请点击白色或浅灰色背景；深色区域可用擦除画笔。', emptyCutout: '没有保留可见内容，已撤回操作。', editorReady: '可点击清除背景，或选择画笔修补。', originalView: '当前为原图对比，切回结果后可继续修补。', editorFailed: '图片暂时无法编辑，请重新上传后重试。', downloadName: 'earring-transparent.png', brushUnit: 'px',
   length: '耳环实际长度', lengthNote: '长度指从悬挂点到耳环最低点。', rotation: '旋转', rotationNote: '以耳垂悬挂点为中心调整角度。',
   compare: '比较两个长度', back: '返回单个预览', reset: '重置', delete: '删除设计',
   empty: '上传设计后，这里会显示佩戴效果', reference: '视觉比例参考', scale: '1 单位 = 1 cm',
@@ -34,6 +36,7 @@ const TEXT = {
 .stage.compare{align-items:start}.stage.compare .view+.view{border:0;padding-left:0;box-shadow:-1px 0 var(--line)}
 .preview-panel{background:#f8f6f2}.preview-header{background:#fcfbf8;padding:22px 26px}.preview-header h2{font-family:Georgia,"Songti SC",SimSun,serif;font-size:17px;letter-spacing:1px}.badge{border:0;letter-spacing:1px}.stage{padding:0 18px;align-items:center}.art{max-height:640px}.preview-footer{background:#fcfbf8;padding:18px 26px}.empty{margin:0;padding:8px 16px 24px}.compare-control{padding:18px 12px 25px}.stage.compare .art{max-height:590px}@media(min-width:1000px){.stage:not(.compare) .art{max-height:640px}}@media(max-width:650px){.stage{padding:0 8px}.preview-header{padding:20px}.preview-header h2{font-size:15px}.art{max-height:550px}.compare-control{padding:12px 5px 22px}.preview-footer{padding:16px}.badge{font-size:9px}}
 .cutout-actions{display:flex;gap:8px;margin-top:15px;flex-wrap:wrap}dialog{width:min(850px,calc(100% - 24px));max-height:94dvh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:24px;background:var(--paper);color:var(--ink)}dialog::backdrop{background:rgb(30 32 28 / .45)}dialog h2{margin:0;font-size:21px;font-family:Georgia,"Songti SC",serif}.editor-tools,.editor-bottom{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:15px 0}.editor-tools button,.editor-bottom button{font-size:12px}.editor-settings{display:flex;gap:24px;flex-wrap:wrap}.editor-settings label{font-size:12px;flex:1;min-width:120px}.editor-settings output{float:right;color:var(--muted)}.canvas-wrap{display:flex;justify-content:center;align-items:center;background:#e6e4de;border:1px solid var(--line);padding:12px;min-height:150px}.canvas-wrap canvas{display:block;max-width:100%;max-height:48dvh;width:auto;height:auto;touch-action:none;cursor:crosshair;background-color:#fff;background-image:repeating-conic-gradient(#e3e3df 0% 25%,transparent 0% 50%);background-size:16px 16px}.editor-bottom{justify-content:space-between;margin-bottom:0}.editor-bottom>div{display:flex;gap:8px}.editor-bottom .primary{width:auto}.editor-status{min-height:20px;font-size:12px;color:var(--accent);margin:10px 0}.editor-tools .active{background:var(--accent);color:white}.editor-tools button[aria-pressed=true]{border-color:var(--accent)}body:has(dialog[open]){overflow:hidden}@media(max-width:500px){dialog{padding:16px}.editor-tools{gap:6px}.editor-tools button{padding:7px 9px}.editor-bottom{gap:12px}.canvas-wrap canvas{max-height:38dvh}}
+.preview-position{display:flex;flex-wrap:wrap;gap:9px;align-items:center;padding:12px 25px;border-bottom:1px solid var(--line)}.preview-position .note{flex-basis:100%;margin:0}.art.positioning{cursor:crosshair;touch-action:manipulation;outline:1px dashed #a5ad9b;outline-offset:-4px}.anchor-actions{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-top:18px}.anchor-actions .primary{width:auto}.anchor-actions>div{display:flex;gap:8px}
 </style>
 </head>
 <body>
@@ -48,7 +51,7 @@ const TEXT = {
         <div id="drop" class="drop" role="button" tabindex="0"><span data-text="upload"></span><small data-text="formats"></small></div>
         <div class="uploaded" id="uploaded" hidden><img class="thumb" id="thumb" alt=""><div class="upload-actions"><div class="file-name" id="filename"></div><button class="small" id="reupload" data-text="reupload"></button></div></div>
         <p class="note" data-text="uploadNote"></p><button class="text-button" id="example" data-text="example"></button>
-        <div id="cutout-actions" class="cutout-actions" hidden><button class="small" id="cutout" data-text="cutout"></button><button class="small" id="repair" data-text="repair"></button></div>
+        <div id="cutout-actions" class="cutout-actions" hidden><button class="small" id="cutout" data-text="cutout"></button><button class="small" id="repair" data-text="repair"></button><button class="small" id="anchor" data-text="anchor"></button></div>
       </section>
       <section class="section" id="single-control"><div class="length-head"><h3><span class="step">02</span><label for="length" data-text="length"></label></h3><div class="value"><input type="number" id="length-number" min="2" max="15" step="0.5" value="5"><span data-text="cm"></span></div></div>
         <input id="length" type="range" min="2" max="15" step="0.5" value="5"><div class="range-labels"><span>2 <span data-text="cm"></span></span><span>15 <span data-text="cm"></span></span></div><div class="quick" id="quick"></div><p class="note" data-text="lengthNote"></p>
@@ -57,6 +60,7 @@ const TEXT = {
       <button class="primary" id="compare" data-text="compare"></button><div class="actions"><button class="subtle" id="reset" data-text="reset"></button><button class="subtle" id="delete" data-text="delete" disabled></button></div><p class="status" id="status" role="status" aria-live="polite"></p>
     </aside>
     <section class="preview-panel" aria-labelledby="preview-title"><div class="preview-header"><h2 id="preview-title" data-text="preview"></h2><span class="badge" id="mode"></span></div>
+      <div class="preview-position"><button class="small" id="move-lobe" data-text="moveLobe" aria-pressed="false"></button><button class="subtle" id="lobe-default" data-text="lobeDefault"></button><p class="note" id="lobe-hint" data-text="lobeHint" hidden></p></div>
       <div class="stage" id="stage"></div><p class="empty" id="empty" data-text="empty"></p><div class="preview-footer"><span data-text="scale"></span><span><span class="dot"></span><span data-text="local"></span></span></div>
     </section>
   </main><footer data-text="disclaimer"></footer>
@@ -64,12 +68,14 @@ const TEXT = {
 <dialog id="editor" aria-labelledby="editor-title" aria-describedby="editor-note">
   <h2 id="editor-title" data-text="editorTitle"></h2><p class="note" id="editor-note" data-text="editorNote"></p>
   <div class="editor-tools"><button id="auto-cut" data-text="auto"></button><button data-tool="wand" data-text="wand"></button><button data-tool="erase" data-text="erase"></button><button data-tool="restore" data-text="restore"></button></div>
+  <div class="editor-tools"><button data-tool="crop" data-text="crop"></button><button id="crop-apply" data-text="cropApply" disabled></button><button data-transform="left" data-text="rotateLeft"></button><button data-transform="right" data-text="rotateRight"></button><button data-transform="mirrorX" data-text="mirrorX"></button><button data-transform="mirrorY" data-text="mirrorY"></button></div>
   <div class="editor-settings"><label><span data-text="tolerance"></span><output id="tolerance-value"></output><input id="tolerance" type="range" min="5" max="65" value="20"></label><label><span data-text="brush"></span><output id="brush-value"></output><input id="brush" type="range" min="4" max="80" value="24"></label></div>
   <div class="canvas-wrap"><canvas id="edit-canvas" tabindex="0"></canvas></div>
   <p id="editor-status" class="editor-status" role="status" aria-live="polite"></p>
   <div class="editor-tools"><button id="undo" data-text="undo"></button><button id="restore-image" data-text="restoreImage"></button><button id="original-view" data-text="showOriginal" aria-pressed="false"></button></div>
   <div class="editor-bottom"><button id="download" data-text="download"></button><div><button id="cancel-edit" data-text="cancel"></button><button class="primary" id="apply-edit" data-text="apply"></button></div></div>
 </dialog>
+<dialog id="anchor-dialog" aria-labelledby="anchor-title" aria-describedby="anchor-note"><h2 id="anchor-title" data-text="anchorTitle"></h2><p class="note" id="anchor-note" data-text="anchorNote"></p><p class="note" data-text="anchorKeyboard"></p><div class="canvas-wrap"><canvas id="anchor-canvas" tabindex="0"></canvas></div><p class="editor-status" id="anchor-status" role="status" aria-live="polite"></p><div class="anchor-actions"><button class="small" id="anchor-default" data-text="anchorDefault"></button><div><button id="anchor-cancel" data-text="cancel"></button><button class="primary" id="anchor-apply" data-text="anchorApply"></button></div></div></dialog>
 <script>
 'use strict';
 const $ = id => document.getElementById(id);
@@ -79,7 +85,7 @@ $('thumb').alt = TEXT.thumbnail;
 $('length-number').setAttribute('aria-label', TEXT.length);
 $('drop').setAttribute('aria-label', TEXT.upload);
 // SVG 的每一个坐标单位对应 1 cm，耳垂悬挂点为 (10, 8)。
-const state = {length:5, a:5, b:7, rotation:0, compare:false, image:null};
+const state = {length:5, a:5, b:7, rotation:0, compare:false, image:null,lobe:{x:10,y:8},positioning:false};
 let uploadVersion = 0;
 const NS = 'http://www.w3.org/2000/svg';
 function svgNode(tag, attributes={}, content) {
@@ -90,6 +96,7 @@ function svgNode(tag, attributes={}, content) {
 }
 function draw(svg, length) {
   svg.replaceChildren();
+  const {x:lx,y:ly}=state.lobe;
   svg.append(svgNode('title',{},TEXT.svgLabel));
   // 耳朵外轮廓高约 6 cm、宽约 3.5 cm；肩线在 y=19，即悬挂点下方 11 cm。
   // 裁切式半侧脸肖像：将视觉重心放在耳垂、耳环与颈肩，使用平涂和克制线条。
@@ -104,32 +111,50 @@ function draw(svg, length) {
   portrait.append(svgNode('path',{d:'M11.95 10.6C11.85 13 12.65 15.3 14.28 16.95M11.1 18.95C13.25 18.35 15.95 18.55 18.25 19.28M5.16 7.98L5.8 7.94',stroke:'#c1b5a5'}));
   svg.append(portrait);
   svg.append(svgNode('path',{d:'M3 19H20.5',stroke:'#b8b2a7','stroke-width':'.025','stroke-dasharray':'.12 .2'}));
-  svg.append(svgNode('text',{x:13,y:20,'font-size':'.34',fill:'#8a8e82'},TEXT.shoulder));
-  svg.append(svgNode('text',{x:16,y:8.12,'font-size':'.34',fill:'#80796e'},TEXT.lobe));
-  svg.append(svgNode('path',{d:'M10.35 8H15.5',stroke:'#b9b0a2','stroke-width':'.025','stroke-dasharray':'.12 .15'}));
+  svg.append(svgNode('text',{x:13,y:20,'font-size':'.34',fill:'#8a8e82'},TEXT.shoulder.replace('11',Number((19-ly).toFixed(1)))));
+  svg.append(svgNode('text',{x:lx+6,y:ly+.12,'font-size':'.34',fill:'#80796e'},TEXT.lobe));
+  svg.append(svgNode('path',{d:`M${lx+.35} ${ly}H${lx+5.5}`,stroke:'#b9b0a2','stroke-width':'.025','stroke-dasharray':'.12 .15'}));
   // 标尺固定位置与刻度；长度标记不受旋转影响，表示设计本身的实际长度。
-  svg.append(svgNode('path',{d:'M4 8V23',stroke:'#aeb5a3','stroke-width':'.045'}));
+  svg.append(svgNode('path',{d:`M4 ${ly}V${ly+15}`,stroke:'#aeb5a3','stroke-width':'.045'}));
   for(let i=0;i<=15;i++) {
-    svg.append(svgNode('path',{d:`M${i%2===0?3.65:3.8} ${8+i}H4.2`,stroke:'#9da58f','stroke-width':'.045'}));
-    if(i%2===0) svg.append(svgNode('text',{x:3.35,y:8+i+.12,'text-anchor':'end','font-size':'.34',fill:'#7d8571'},i));
+    svg.append(svgNode('path',{d:`M${i%2===0?3.65:3.8} ${ly+i}H4.2`,stroke:'#9da58f','stroke-width':'.045'}));
+    if(i%2===0) svg.append(svgNode('text',{x:3.35,y:ly+i+.12,'text-anchor':'end','font-size':'.34',fill:'#7d8571'},i));
   }
-  svg.append(svgNode('text',{x:4,y:24.1,'text-anchor':'middle','font-size':'.33',fill:'#818977'},TEXT.reference));
+  svg.append(svgNode('text',{x:4,y:ly+16.1,'text-anchor':'middle','font-size':'.33',fill:'#818977'},TEXT.reference));
   const marker = svgNode('g',{'data-marker':length});
-  marker.append(svgNode('path',{d:`M3.75 ${8+length}H5.05`,stroke:'#596350','stroke-width':'.09'}));
-  marker.append(svgNode('rect',{x:.05,y:7.63+length,width:3.1,height:.74,rx:.15,fill:'#596350'}));
-  marker.append(svgNode('text',{x:1.6,y:8.13+length,'text-anchor':'middle','font-size':'.43',fill:'#fff'},`${length} ${TEXT.cm}`));
+  marker.append(svgNode('path',{d:`M3.75 ${ly+length}H5.05`,stroke:'#596350','stroke-width':'.09'}));
+  marker.append(svgNode('rect',{x:.05,y:ly-.37+length,width:3.1,height:.74,rx:.15,fill:'#596350'}));
+  marker.append(svgNode('text',{x:1.6,y:ly+.13+length,'text-anchor':'middle','font-size':'.43',fill:'#fff'},`${length} ${TEXT.cm}`));
   svg.append(marker);
-  svg.append(svgNode('circle',{cx:10,cy:8,r:.09,fill:'#596350'}));
+  svg.append(svgNode('circle',{cx:lx,cy:ly,r:.09,fill:'#596350'}));
   if(state.image) {
-    const width = length * state.image.ratio;
+    const {width,height,x,y}=imageGeometry(length);
     // 图像绕顶部中心旋转；宽高使用同一缩放率，保持原始比例。
-    const design = svgNode('image',{href:state.image.url,x:10-width/2,y:8,width,height:length,preserveAspectRatio:'xMidYMin meet',transform:`rotate(${state.rotation} 10 8)`,'data-design':''});
+    const design = svgNode('image',{href:state.image.url,x,y,width,height,preserveAspectRatio:'xMidYMin meet',transform:`rotate(${state.rotation} ${lx} ${ly})`,'data-design':''});
     svg.append(design);
   }
+  if(state.positioning){svg.append(svgNode('circle',{cx:lx,cy:ly,r:.32,fill:'white',stroke:'#596350','stroke-width':'.07','pointer-events':'none'}));svg.append(svgNode('path',{d:`M${lx-.5} ${ly}h1M${lx} ${ly-.5}v1`,stroke:'#596350','stroke-width':'.06','pointer-events':'none'}));}
 }
+function imageGeometry(length){const anchor=state.image.anchor||{x:.5,y:0};const height=length/(1-anchor.y),width=height*state.image.ratio;return{width,height,x:state.lobe.x-anchor.x*width,y:state.lobe.y-anchor.y*height};}
+// 耳垂位置是预览坐标，图片挂点是图像比例坐标；A/B 共用两者。
+function setLobe(x,y){state.lobe={x:Math.round(Math.max(6,Math.min(15,x))*100)/100,y:Math.round(Math.max(2,Math.min(11,y))*100)/100};render();status(TEXT.lobeDone);}
+$('move-lobe').onclick=()=>{state.positioning=!state.positioning;render();};
+$('lobe-default').onclick=()=>{state.lobe={x:10,y:8};state.positioning=false;render();};
+let anchorDraft=null,anchorImage=null;
+const anchorCanvas=$('anchor-canvas');anchorCanvas.setAttribute('aria-label',TEXT.anchorCanvas);
+function paintAnchor(){const ctx=anchorCanvas.getContext('2d');ctx.clearRect(0,0,anchorCanvas.width,anchorCanvas.height);ctx.drawImage(anchorImage,0,0);const scale=anchorCanvas.width/(anchorCanvas.getBoundingClientRect().width||anchorCanvas.width),x=anchorDraft.x*anchorCanvas.width,y=anchorDraft.y*anchorCanvas.height;ctx.beginPath();ctx.arc(x,y,7*scale,0,Math.PI*2);ctx.strokeStyle='white';ctx.lineWidth=4*scale;ctx.stroke();ctx.strokeStyle='#596350';ctx.lineWidth=2*scale;ctx.stroke();ctx.beginPath();ctx.moveTo(x-12*scale,y);ctx.lineTo(x+12*scale,y);ctx.moveTo(x,y-12*scale);ctx.lineTo(x,y+12*scale);ctx.stroke();}
+$('anchor').onclick=async()=>{const design=state.image;if(!design)return;try{const image=new Image();image.src=design.url;await image.decode();if(design!==state.image)return;anchorImage=image;anchorDraft={...(design.anchor||{x:.5,y:0})};anchorCanvas.width=image.naturalWidth;anchorCanvas.height=image.naturalHeight;$('anchor-status').textContent='';$('anchor-dialog').showModal();paintAnchor();}catch{status(TEXT.editorFailed,true);}};
+function updateAnchor(x,y){anchorDraft={x:Math.max(0,Math.min(1,x)),y:Math.max(0,Math.min(.95,y))};$('anchor-status').textContent=y>.95?TEXT.anchorLimit:'';paintAnchor();}
+anchorCanvas.addEventListener('pointerdown',event=>{event.preventDefault();anchorCanvas.focus();const bounds=anchorCanvas.getBoundingClientRect();updateAnchor((event.clientX-bounds.left)/bounds.width,(event.clientY-bounds.top)/bounds.height);});
+anchorCanvas.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;event.preventDefault();const step=event.shiftKey?.05:.005;updateAnchor(anchorDraft.x+(event.key==='ArrowRight'?step:event.key==='ArrowLeft'?-step:0),anchorDraft.y+(event.key==='ArrowDown'?step:event.key==='ArrowUp'?-step:0));});
+$('anchor-default').onclick=()=>updateAnchor(.5,0);$('anchor-cancel').onclick=()=>$('anchor-dialog').close();
+$('anchor-apply').onclick=()=>{state.image.anchor={...anchorDraft};render();$('anchor-dialog').close();status(TEXT.anchorDone);};
+$('anchor-dialog').addEventListener('close',()=>{anchorDraft=null;anchorImage=null;anchorCanvas.width=1;anchorCanvas.height=1;});
 function makeView(key) {
   const view = document.createElement('div');view.className='view';
   const svg = svgNode('svg',{viewBox:'0 0 24 26',class:'art',role:'img','aria-label':TEXT.svgLabel});
+  svg.addEventListener('click',event=>{if(!state.positioning)return;const point=new DOMPoint(event.clientX,event.clientY).matrixTransform(svg.getScreenCTM().inverse());setLobe(point.x,point.y);});
+  svg.addEventListener('keydown',event=>{if(!state.positioning||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;event.preventDefault();const step=event.shiftKey?.5:.1;setLobe(state.lobe.x+(event.key==='ArrowRight'?step:event.key==='ArrowLeft'?-step:0),state.lobe.y+(event.key==='ArrowDown'?step:event.key==='ArrowUp'?-step:0));});
   view.append(svg);view.dataset.key=key;
   if(key!=='length') {
     const box=document.createElement('div');box.className='compare-control';
@@ -157,13 +182,14 @@ function render(){
   $('empty').hidden=!!state.image;$('drop').hidden=!!state.image;$('uploaded').hidden=!state.image;$('delete').disabled=!state.image;
   $('cutout-actions').hidden=!state.image;
   // 两个视图共享相同边界；异常宽幅设计或旋转后也不会被视口裁掉。
-  let minX=0,maxX=24,minY=0,maxY=26;
+  $('move-lobe').textContent=state.positioning?TEXT.finishLobe:TEXT.moveLobe;$('move-lobe').setAttribute('aria-pressed',state.positioning);$('lobe-hint').hidden=!state.positioning;
+  let minX=0,maxX=24,minY=0,maxY=Math.max(26,state.lobe.y+17);
   if(state.image){
     const radians=state.rotation*Math.PI/180;
     for(const length of (state.compare?[state.a,state.b]:[state.length])){
-      const halfWidth=length*state.image.ratio/2;
-      for(const x of [-halfWidth,halfWidth])for(const y of [0,length]){
-        const px=10+x*Math.cos(radians)-y*Math.sin(radians),py=8+x*Math.sin(radians)+y*Math.cos(radians);
+      const box=imageGeometry(length),left=box.x-state.lobe.x,top=box.y-state.lobe.y;
+      for(const x of [left,left+box.width])for(const y of [top,top+box.height]){
+        const px=state.lobe.x+x*Math.cos(radians)-y*Math.sin(radians),py=state.lobe.y+x*Math.sin(radians)+y*Math.cos(radians);
         minX=Math.min(minX,px-.5);maxX=Math.max(maxX,px+.5);minY=Math.min(minY,py-.5);maxY=Math.max(maxY,py+.5);
       }
     }
@@ -172,6 +198,7 @@ function render(){
     const key=view.dataset.key;
     view.querySelectorAll('input').forEach(input=>{if(document.activeElement!==input) input.value=state[key];});
     const svg=view.querySelector('svg');
+    svg.classList.toggle('positioning',state.positioning);svg.setAttribute('tabindex',state.positioning?'0':'-1');svg.setAttribute('role',state.positioning?'application':'img');svg.setAttribute('aria-label',state.positioning?TEXT.lobeHint:TEXT.svgLabel);
     svg.setAttribute('viewBox',`${minX} ${minY} ${maxX-minX} ${maxY-minY}`);
     draw(svg,state[key]);
   });
@@ -242,11 +269,16 @@ const editContext=editCanvas.getContext('2d');
 editCanvas.setAttribute('aria-label',TEXT.editorCanvas);
 function editorStatus(message){$('editor-status').textContent=message;}
 function alphaOf(pixels){const alpha=new Uint8ClampedArray(pixels.data.length/4);for(let i=0;i<alpha.length;i++)alpha[i]=pixels.data[i*4+3];return alpha;}
-function remember(){edit.history.push(edit.alpha.slice());if(edit.history.length>12)edit.history.shift();}
+function snapshot(){return{alpha:edit.alpha.slice(),original:edit.original,width:edit.width,height:edit.height,anchor:{...edit.anchor}};}
+function remember(){edit.history.push(snapshot());if(edit.history.length>12)edit.history.shift();}
+function restoreSnapshot(saved){Object.assign(edit,saved);edit.crop=null;editCanvas.width=edit.width;editCanvas.height=edit.height;}
 function resultPixels(){const pixels=new ImageData(new Uint8ClampedArray(edit.original.data),edit.width,edit.height);for(let i=0;i<edit.alpha.length;i++)pixels.data[i*4+3]=edit.alpha[i];return pixels;}
 function paintEditor(){
   if(!edit)return;
   editContext.putImageData(edit.showOriginal?edit.original:resultPixels(),0,0);
+  if(edit.crop&&!edit.showOriginal){const r=cropRect();editContext.fillStyle='rgb(35 38 30 / .35)';editContext.beginPath();editContext.rect(0,0,edit.width,edit.height);editContext.rect(r.x,r.y,r.width,r.height);editContext.fill('evenodd');editContext.strokeStyle='#596350';editContext.lineWidth=2*edit.width/(editCanvas.getBoundingClientRect().width||edit.width);editContext.strokeRect(r.x,r.y,r.width,r.height);}
+  $('crop-apply').disabled=!edit.crop||edit.showOriginal;
+  document.querySelectorAll('[data-transform]').forEach(button=>button.disabled=edit.showOriginal);
   $('undo').disabled=!edit.history.length||edit.showOriginal;
   $('auto-cut').disabled=edit.showOriginal;$('restore-image').disabled=edit.showOriginal;
   $('original-view').textContent=edit.showOriginal?TEXT.showResult:TEXT.showOriginal;
@@ -260,7 +292,8 @@ async function openEditor(automatic){
     if(state.image!==design)return;
     editCanvas.width=image.naturalWidth;editCanvas.height=image.naturalHeight;editContext.clearRect(0,0,editCanvas.width,editCanvas.height);editContext.drawImage(image,0,0);
     const pixels=editContext.getImageData(0,0,editCanvas.width,editCanvas.height);
-    edit={original:design.originalPixels||pixels,alpha:alphaOf(pixels),width:editCanvas.width,height:editCanvas.height,history:[],tool:'wand',showOriginal:false,stroke:null};
+    edit={original:design.originalPixels||pixels,alpha:alphaOf(pixels),width:editCanvas.width,height:editCanvas.height,anchor:{...(design.anchor||{x:.5,y:0})},history:[],tool:'wand',showOriginal:false,stroke:null,crop:null};
+    edit.root=design.editRoot||{original:edit.original,width:edit.width,height:edit.height,anchor:{...edit.anchor}};
     $('editor').showModal();editorStatus(TEXT.editorReady);paintEditor();if(automatic)removeBackground();
   }catch{status(TEXT.editorFailed,true);}
 }
@@ -279,7 +312,7 @@ function removeBackground(seed){
   if(!next.some(value=>value>0)){editorStatus(TEXT.emptyCutout);return;}
   remember();edit.alpha=next;paintEditor();editorStatus(TEXT.autoDone);
 }
-function canvasPoint(event){const bounds=editCanvas.getBoundingClientRect();return{x:Math.min(edit.width-1,Math.max(0,(event.clientX-bounds.left)*edit.width/bounds.width)),y:Math.min(edit.height-1,Math.max(0,(event.clientY-bounds.top)*edit.height/bounds.height))};}
+function canvasPoint(event){const bounds=editCanvas.getBoundingClientRect(),inset=edit.tool==='crop'?0:1;return{x:Math.min(edit.width-inset,Math.max(0,(event.clientX-bounds.left)*edit.width/bounds.width)),y:Math.min(edit.height-inset,Math.max(0,(event.clientY-bounds.top)*edit.height/bounds.height))};}
 function stamp(point){
   const radius=Number($('brush').value)*edit.width/editCanvas.getBoundingClientRect().width/2;
   for(let y=Math.max(0,Math.floor(point.y-radius));y<=Math.min(edit.height-1,Math.ceil(point.y+radius));y++)for(let x=Math.max(0,Math.floor(point.x-radius));x<=Math.min(edit.width-1,Math.ceil(point.x+radius));x++){
@@ -293,30 +326,54 @@ editCanvas.addEventListener('pointerdown',event=>{
   if(!edit||edit.showOriginal||edit.stroke||event.button!==0)return;
   event.preventDefault();const point=canvasPoint(event);
   if(edit.tool==='wand'){removeBackground(Math.floor(point.y)*edit.width+Math.floor(point.x));return;}
+  if(edit.tool==='crop'){edit.crop={start:point,end:point};edit.stroke={point,id:event.pointerId};editCanvas.setPointerCapture(event.pointerId);paintEditor();return;}
   remember();edit.stroke={point,id:event.pointerId};editCanvas.setPointerCapture(event.pointerId);stamp(point);paintEditor();
 });
 editCanvas.addEventListener('pointermove',event=>{
   if(!edit?.stroke||event.pointerId!==edit.stroke.id)return;
+  if(edit.tool==='crop'){edit.crop.end=canvasPoint(event);paintEditor();return;}
   const point=canvasPoint(event),last=edit.stroke.point,distance=Math.hypot(point.x-last.x,point.y-last.y);
   const step=Math.max(1,Number($('brush').value)*edit.width/editCanvas.getBoundingClientRect().width/6),steps=Math.ceil(distance/step);
   for(let i=1;i<=steps;i++)stamp({x:last.x+(point.x-last.x)*i/steps,y:last.y+(point.y-last.y)*i/steps});
   edit.stroke.point=point;paintEditor();
 });
-function finishStroke(){if(!edit?.stroke)return;edit.stroke=null;if(!edit.alpha.some(value=>value>0)){edit.alpha=edit.history.pop();editorStatus(TEXT.emptyCutout);}paintEditor();}
+function finishStroke(){if(!edit?.stroke)return;edit.stroke=null;if(!edit.alpha.some(value=>value>0)){restoreSnapshot(edit.history.pop());editorStatus(TEXT.emptyCutout);}paintEditor();}
 editCanvas.addEventListener('pointerup',finishStroke);editCanvas.addEventListener('pointercancel',finishStroke);editCanvas.addEventListener('lostpointercapture',finishStroke);
-document.querySelectorAll('[data-tool]').forEach(button=>button.onclick=()=>{edit.tool=button.dataset.tool;edit.showOriginal=false;paintEditor();editorStatus(TEXT.editorReady);});
+document.querySelectorAll('[data-tool]').forEach(button=>button.onclick=()=>{edit.tool=button.dataset.tool;edit.crop=null;edit.showOriginal=false;paintEditor();editorStatus(edit.tool==='crop'?TEXT.cropHint:TEXT.editorReady);});
 $('cutout').onclick=()=>openEditor(true);$('repair').onclick=()=>openEditor(false);
 $('auto-cut').onclick=()=>removeBackground();
-$('undo').onclick=()=>{if(edit.history.length){edit.alpha=edit.history.pop();paintEditor();editorStatus(TEXT.editorReady);}};
-$('restore-image').onclick=()=>{remember();edit.alpha=alphaOf(edit.original);paintEditor();editorStatus(TEXT.editorReady);};
+$('undo').onclick=()=>{if(edit.history.length){restoreSnapshot(edit.history.pop());paintEditor();editorStatus(TEXT.editorReady);}};
+$('restore-image').onclick=()=>{remember();restoreSnapshot({...edit.root,anchor:{...edit.root.anchor},alpha:alphaOf(edit.root.original)});paintEditor();editorStatus(TEXT.editorReady);};
 $('original-view').onclick=()=>{edit.showOriginal=!edit.showOriginal;paintEditor();editorStatus(edit.showOriginal?TEXT.originalView:TEXT.editorReady);};
 function updateEditorSettings(){$('tolerance-value').textContent=$('tolerance').value;$('brush-value').textContent=`${$('brush').value} ${TEXT.brushUnit}`;}
 $('tolerance').oninput=updateEditorSettings;$('brush').oninput=updateEditorSettings;updateEditorSettings();
 function exportCanvas(){const canvas=document.createElement('canvas');canvas.width=edit.width;canvas.height=edit.height;canvas.getContext('2d').putImageData(resultPixels(),0,0);return canvas;}
-$('apply-edit').onclick=()=>{if(!edit.alpha.some(value=>value>0)){editorStatus(TEXT.emptyCutout);return;}const url=exportCanvas().toDataURL('image/png');state.image={...state.image,url,opaque:false,originalPixels:edit.original};$('thumb').src=url;render();$('editor').close();status(TEXT.cutoutDone);};
+$('apply-edit').onclick=()=>{if(!edit.alpha.some(value=>value>0)){editorStatus(TEXT.emptyCutout);return;}const url=exportCanvas().toDataURL('image/png');state.image={...state.image,url,ratio:edit.width/edit.height,anchor:{...edit.anchor},opaque:false,originalPixels:edit.original,editRoot:edit.root};$('thumb').src=url;render();$('editor').close();status(TEXT.cutoutDone);};
 $('download').onclick=()=>{const link=document.createElement('a');link.href=exportCanvas().toDataURL('image/png');link.download=TEXT.downloadName;link.click();};
 $('cancel-edit').onclick=()=>$('editor').close();
 $('editor').addEventListener('close',()=>{edit=null;editCanvas.width=1;editCanvas.height=1;});
+function cropRect(){const {start,end}=edit.crop,x=Math.floor(Math.min(start.x,end.x)),y=Math.floor(Math.min(start.y,end.y));return{x,y,width:Math.min(edit.width-x,Math.ceil(Math.max(start.x,end.x))-x),height:Math.min(edit.height-y,Math.ceil(Math.max(start.y,end.y))-y)};}
+// 对原始像素和 alpha 同步做整数坐标变换，旋转/镜像不插值，不混入背景色。
+function transformPixels(kind,rect){
+  const w=edit.width,h=edit.height,swap=kind==='left'||kind==='right',nw=rect?rect.width:swap?h:w,nh=rect?rect.height:swap?w:h;
+  const original=new ImageData(nw,nh),alpha=new Uint8ClampedArray(nw*nh);
+  for(let y=0;y<nh;y++)for(let x=0;x<nw;x++){
+    let sx=x,sy=y;
+    if(rect){sx=x+rect.x;sy=y+rect.y;}else if(kind==='right'){sx=y;sy=h-1-x;}else if(kind==='left'){sx=w-1-y;sy=x;}else if(kind==='mirrorX')sx=w-1-x;else if(kind==='mirrorY')sy=h-1-y;
+    const from=sy*w+sx,to=y*nw+x;original.data.set(edit.original.data.subarray(from*4,from*4+4),to*4);alpha[to]=edit.alpha[from];
+  }
+  if(!alpha.some(value=>value>0)){editorStatus(TEXT.emptyCutout);return;}
+  const old=edit.anchor;let anchor={...old};
+  if(rect)anchor={x:(old.x*w-rect.x)/nw,y:(old.y*h-rect.y)/nh};
+  else if(kind==='right')anchor={x:1-old.y,y:old.x};
+  else if(kind==='left')anchor={x:old.y,y:1-old.x};
+  else if(kind==='mirrorX')anchor.x=1-old.x;else if(kind==='mirrorY')anchor.y=1-old.y;
+  const invalid=anchor.x<0||anchor.x>1||anchor.y<0||anchor.y>.95;
+  if(invalid)anchor={x:.5,y:0};
+  remember();restoreSnapshot({original,alpha,width:nw,height:nh,anchor});paintEditor();editorStatus(invalid?TEXT.anchorReset:TEXT.geometryDone);
+}
+$('crop-apply').onclick=()=>{const rect=cropRect();if(rect.width<4||rect.height<4){editorStatus(TEXT.cropSmall);return;}transformPixels('crop',rect);};
+document.querySelectorAll('[data-transform]').forEach(button=>button.onclick=()=>transformPixels(button.dataset.transform));
 buildStage();
 </script>
 </body>
