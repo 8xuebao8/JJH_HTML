@@ -6,7 +6,7 @@
 <title></title>
 <script>
 // 所有界面文案集中于此；替换此对象即可翻译界面。
-const TEXT = {
+const TEXT_ZH = {
   title: '耳环佩戴比例视觉化工具', subtitle: '上传你的耳环设计，直观看到实际佩戴后的长度与比例。',
   brand: '珠宝设计工作室', edition: '比例研究 / 01', controls: '控制面板', preview: '佩戴效果预览',
   design: '我的耳环设计', upload: '＋ 上传耳环设计图', formats: 'PNG / JPG / JPEG · 点击或拖拽',
@@ -27,8 +27,27 @@ const TEXT = {
   processing: '正在整理图片…', ready: '图片已就绪，已自动整理空白边。', original: '图片已就绪，保留完整画面。',
   deleted: '已删除设计。', resetDone: '已重置长度与旋转，保留当前设计。',
   a: 'A', b: 'B', cm: 'cm', degree: '°', dash: '—', single: '侧面 · 等比例', comparison: '长度比较', study: '佩戴比例研究', studyNote: '耳垂佩戴 / 侧面视角',
-  lengthLabel: '长度', angleLabel: '旋转角度', svgLabel: '人物侧面照片与耳环佩戴比例预览'
+  lengthLabel: '长度', angleLabel: '旋转角度', svgLabel: '人物侧面照片与耳环佩戴比例预览', switchLanguage: 'Switch to English', languageButton: 'English'
 };
+const TEXT_EN = {
+  title:'Earring Proportion Studio',subtitle:'Upload your earring design and explore its length and proportions when worn.',
+  brand:'JEWELRY DESIGN STUDIO',edition:'PROPORTION STUDY / 01',controls:'CONTROL PANEL',preview:'Wearing preview',
+  design:'My earring design',upload:'+ Upload earring design',formats:'PNG / JPG / JPEG · Click or drop',reupload:'Replace image',example:'Try sample earring',sample:'Teardrop sample earring',thumbnail:'Earring design thumbnail',
+  uploadNote:'Include the complete earring. Transparent PNG is recommended. Use the calibration tool to mark the hanging point and lowest point.',
+  anchor:'Set measurement points',anchorTitle:'Calibrate earring length',anchorNote:'Mark the hanging point and the lowest point. Length is the vertical distance between them, excluding image padding. Rotation stays centered on the hanging point.',anchorDefault:'Reset both points',anchorApply:'Apply calibration',anchorDone:'Proportions updated using the hanging and lowest points.',anchorLimit:'The lowest point must be below the hanging point, separated by at least 5% of the image height.',anchorCanvas:'Click or use arrow keys to adjust the selected measurement point',anchorKeyboard:'Select a point, then click the image. Use arrow keys for fine adjustments; hold Shift for larger steps.',selectAnchor:'① Hanging point',selectTip:'② Lowest point',anchorMarker:'①',tipMarker:'②',moveLobe:'Adjust earlobe position',finishLobe:'Finish positioning',lobeDefault:'Reset position',lobeHint:'Click the wearing position on the ear, or focus the preview and use arrow keys. A and B share this position.',lobeDone:'Earlobe position updated.',
+  repair:'Edit image',editorTitle:'Image editor',editorNote:'Pick the background color, then adjust tolerance for a live preview. Use Erase or Restore to refine details.',geometryTools:'Crop, rotate & flip',
+  crop:'Crop',cropApply:'Apply crop',cropHint:'Drag a rectangle around the area to keep, then apply the crop. Points outside the crop reset to defaults and can be calibrated again.',cropSmall:'Select an area of at least 4 × 4 pixels.',geometryDone:'Image updated. Undo if needed, or apply it to the preview.',anchorReset:'The transformed points are no longer valid for calibration. Defaults restored; please recalibrate.',rotateLeft:'Rotate left 90°',rotateRight:'Rotate right 90°',mirrorX:'Flip horizontally',mirrorY:'Flip vertically',
+  sampleColor:'Pick background',colorEmpty:'Click image to pick',colorHint:'Click the background to pick its color and preview removal immediately.',colorTransparent:'This area is already transparent. Pick a visible background area.',colorAll:'Include disconnected areas (such as openings)',colorToleranceNote:'Higher tolerance removes more; lower it to restore detail. One undo reverses this color selection and its tolerance adjustments.',colorDone:'Preview updated. Switching tools or picking again keeps the current result.',
+  tolerance:'Color tolerance',erase:'Erase',restore:'Restore',brush:'Brush size',undo:'Undo',restoreImage:'Restore original',showOriginal:'View original',showResult:'View result',apply:'Apply to preview',cancel:'Cancel',download:'Download PNG',editorCanvas:'Image editing canvas',
+  cutoutDone:'Image applied using the current calibration and length.',autoDone:'Connected light background removed. Click inside openings to clear them.',noBackground:'No removable light background found. Adjust tolerance or use Erase.',pickWhite:'Click a white or light gray background. Use Erase for darker areas.',emptyCutout:'No visible content would remain. Operation reverted.',editorReady:'Pick a background color or use the brushes to refine the image.',originalView:'Viewing the original. Switch back to continue editing.',editorFailed:'Unable to edit this image. Please upload it again.',downloadName:'earring-transparent.png',brushUnit:'px',
+  length:'Earring length',lengthNote:'The vertical distance from the hanging point to the lowest point. Both points can be set manually.',rotation:'Rotation',rotationNote:'Rotate around the hanging point on the earlobe.',
+  compare:'Compare two lengths',back:'Back to single preview',reset:'Reset',delete:'Delete design',empty:'Upload a design to see it here.',reference:'Visual proportion reference',scale:'1 unit = 1 cm',lobe:'Earlobe hanging point',shoulder:'Shoulder · approx. 11 cm below earlobe',local:'Images stay on your device',
+  disclaimer:'For visual proportion reference during jewelry design only. Not a precise measurement or a guarantee of actual fit.',invalid:'Please choose a PNG or JPG image.',failed:'Unable to read this image. Please try another file.',processing:'Preparing image…',ready:'Image ready. Empty edges trimmed automatically.',original:'Image ready. Full image retained.',deleted:'Design deleted.',resetDone:'Length and rotation reset. Your design is retained.',a:'A',b:'B',cm:'cm',degree:'°',dash:'—',single:'Side view · To scale',comparison:'Length comparison',study:'Wearing proportion study',studyNote:'Earlobe / Side view',lengthLabel:'Length',angleLabel:'Rotation angle',svgLabel:'Side portrait with earring proportion preview',switchLanguage:'切换到中文',languageButton:'中文'
+};
+const TRANSLATIONS={zh:TEXT_ZH,en:TEXT_EN};
+let language='zh';
+try{if(localStorage.getItem('earring-language')==='en')language='en';}catch{/* 隐私模式禁用存储时仍可切换。 */}
+let TEXT=TRANSLATIONS[language];
 </script>
 <style>
 :root{color-scheme:light;--paper:#faf9f6;--white:#fff;--ink:#333631;--muted:#777970;--line:#e1e2da;--accent:#596350}
@@ -40,11 +59,12 @@ const TEXT = {
 .preview-position{display:flex;flex-wrap:wrap;gap:9px;align-items:center;padding:12px 25px;border-bottom:1px solid var(--line)}.preview-position .note{flex-basis:100%;margin:0}.art.positioning{cursor:crosshair;touch-action:manipulation;outline:1px dashed #a5ad9b;outline-offset:-4px}.anchor-actions{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-top:18px}.anchor-actions .primary{width:auto}.anchor-actions>div{display:flex;gap:8px}
 .sample-row{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.sample-row button{font-size:12px}.sample-swatch{display:inline-block;width:20px;height:20px;border:1px solid #b6b6ad;border-radius:3px;vertical-align:middle}.sample-row output{font-size:12px;font-family:monospace}.color-settings{border-block:1px solid var(--line);padding:12px 0;margin:8px 0 14px}.color-settings .check{margin:7px 0}.color-settings .note{margin:7px 0 0}
 #geometry-tools{margin:10px 0 14px;font-size:12px}#geometry-tools summary{cursor:pointer;color:var(--muted);padding:5px 0}.sample-row button.active{background:var(--accent);color:white}.editor-settings input:disabled{opacity:.4;cursor:default}
+.header-tools{display:flex;align-items:center;gap:18px}.language-toggle{font-size:11px;letter-spacing:0;padding:6px 11px;white-space:nowrap}.dialog-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.length-head{gap:8px}.length-head .value{flex-shrink:0}.length-head h3{min-width:0}html[lang=en] .masthead{letter-spacing:1px}html[lang=en] .editor-bottom{gap:10px}html[lang=en] .anchor-actions button{font-size:12px}@media(max-width:650px){.header-tools>[data-text=edition]{display:none}html[lang=en] .brand{font-size:9px;letter-spacing:.3px}.dialog-heading h2{font-size:20px}.editor-bottom>div{flex-wrap:wrap}}
 </style>
 </head>
 <body>
 <div class="page">
-  <header class="masthead"><span class="brand"><svg viewBox="0 0 24 32" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="4" r="2.5"/><path d="M12 7C10 11 4 17 4 23a8 8 0 0 0 16 0c0-6-6-12-8-16Z"/></svg><span data-text="brand"></span></span><span data-text="edition"></span></header>
+  <header class="masthead"><span class="brand"><svg viewBox="0 0 24 32" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="4" r="2.5"/><path d="M12 7C10 11 4 17 4 23a8 8 0 0 0 16 0c0-6-6-12-8-16Z"/></svg><span data-text="brand"></span></span><div class="header-tools"><span data-text="edition"></span><button id="language-toggle" class="language-toggle" data-language-toggle></button></div></header>
   <div class="intro"><h1 data-text="title"></h1><p class="subtitle" data-text="subtitle"></p></div>
   <main class="workspace">
     <aside class="panel" aria-labelledby="controls-title">
@@ -229,7 +249,7 @@ function setDesign(image,name,message){state.image=image;$('thumb').src=image.ur
 $('example').onclick=()=>{
   uploadVersion++;
   const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 170"><g fill="none" stroke="#454940" stroke-width="3"><circle cx="40" cy="7" r="5.5"/><path d="M40 13C35 43 3 87 3 125a37 42 0 0 0 74 0C77 87 45 43 40 13Z"/><path d="M40 43C33 68 14 102 14 126a26 30 0 0 0 52 0C66 102 47 68 40 43Z"/></g></svg>';
-  setDesign({url:'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg),ratio:80/170,opaque:false},TEXT.sample,TEXT.original);
+  setDesign({url:'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg),ratio:80/170,opaque:false,isSample:true},TEXT.sample,TEXT.original);
 };
 function chooseFile(){$('file').click();}
 $('drop').onclick=chooseFile;$('reupload').onclick=chooseFile;
@@ -388,7 +408,31 @@ function transformPixels(kind,rect){
 }
 $('crop-apply').onclick=()=>{const rect=cropRect();if(rect.width<4||rect.height<4){editorStatus(TEXT.cropSmall);return;}transformPixels('crop',rect);};
 document.querySelectorAll('[data-transform]').forEach(button=>button.onclick=()=>transformPixels(button.dataset.transform));
-buildStage();
+// 翻译静态与动态内容，不重建编辑会话、不刷新页面，也不改变图片或标定数据。
+function applyLanguage(next,persist=true){
+  const previous=TEXT;language=next;TEXT=TRANSLATIONS[language];
+  for(const id of ['status','editor-status','anchor-status']){
+    const node=$(id),key=Object.keys(previous).find(key=>previous[key]===node.textContent);
+    if(key)node.textContent=TEXT[key];
+  }
+  document.documentElement.lang=language==='en'?'en':'zh-CN';document.title=TEXT.title;
+  document.querySelectorAll('[data-text]').forEach(node=>node.textContent=TEXT[node.dataset.text]);
+  document.querySelectorAll('[data-language-toggle]').forEach(button=>{button.textContent=TEXT.languageButton;button.setAttribute('aria-label',TEXT.switchLanguage);button.lang=language==='en'?'zh-CN':'en';});
+  $('thumb').alt=TEXT.thumbnail;$('length-number').setAttribute('aria-label',TEXT.length);$('drop').setAttribute('aria-label',TEXT.upload);
+  editCanvas.setAttribute('aria-label',TEXT.editorCanvas);anchorCanvas.setAttribute('aria-label',TEXT.anchorCanvas);
+  if(state.image?.isSample)$('filename').textContent=TEXT.sample;
+  document.querySelectorAll('.quick button').forEach(button=>button.textContent=`${button.dataset.value} ${TEXT.cm}`);
+  document.querySelectorAll('.view').forEach(view=>view.querySelectorAll('input').forEach(input=>input.setAttribute('aria-label',`${TEXT[view.dataset.key]} ${TEXT.lengthLabel}`)));
+  render();updateEditorSettings();if(edit)paintEditor();if(anchorImage&&$('anchor-dialog').open)paintAnchor();
+  if(persist)try{localStorage.setItem('earring-language',language);}catch{/* 存储不可用不影响当前会话。 */}
+}
+// 弹窗中也保留同一语言按钮，编辑过程中可切换且不会丢失草稿。
+for(const id of ['editor-title','anchor-title']){
+  const title=$(id),heading=document.createElement('div');heading.className='dialog-heading';title.before(heading);heading.append(title);
+  const button=document.createElement('button');button.className='language-toggle';button.setAttribute('data-language-toggle','');heading.append(button);
+}
+document.querySelectorAll('[data-language-toggle]').forEach(button=>button.onclick=()=>applyLanguage(language==='zh'?'en':'zh'));
+buildStage();applyLanguage(language,false);
 </script>
 </body>
 </html>
