@@ -13,10 +13,10 @@ const TEXT = {
   reupload: '重新上传', example: '使用示例耳环', sample: '水滴形示例耳环', thumbnail: '耳环设计缩略图',
   uploadNote: '请让图片顶端对齐耳环的悬挂点，并完整包含耳环最低处。推荐使用透明背景 PNG。',
   anchor: '设置挂点与最低点', anchorTitle: '标定耳环长度', anchorNote: '分别点击悬挂点和耳环最低点。厘米长度对应两点的垂直距离，忽略上下留白；耳环仍绕悬挂点旋转。', anchorDefault: '恢复默认两点', anchorApply: '应用标定', anchorDone: '已按悬挂点至最低点的距离更新比例。', anchorLimit: '最低点须在悬挂点下方，两点至少相隔图片高度的 5%。', anchorCanvas: '点击或用方向键调整当前标定点', anchorKeyboard: '先选择要设置的点，再点击图片；可用方向键微调，按住 Shift 加快。', selectAnchor: '① 悬挂点', selectTip: '② 最低点', anchorMarker: '①', tipMarker: '②', moveLobe: '调整耳垂位置', finishLobe: '完成定位', lobeDefault: '恢复默认位置', lobeHint: '点击耳朵上的佩戴位置；也可聚焦预览后用方向键微调。A/B 共用同一位置。', lobeDone: '已更新耳垂位置。',
-  cutout: '一键去白底', repair: '编辑图片', editorTitle: '图片编辑', editorNote: '支持裁切、旋转、镜像和去底修补。去底适合白色、浅灰色背景；误删的细节可用恢复画笔补回。',
+  repair: '编辑图片', editorTitle: '图片编辑', editorNote: '吸取背景颜色，拖动容差实时去底。需要时用擦除、恢复画笔修补。', geometryTools: '裁切、旋转与镜像',
   crop: '裁切', cropApply: '确认裁切', cropHint: '在图上拖出保留区域，再点击确认裁切。标定点被裁掉时会恢复默认两点，可重新标定。', cropSmall: '请拖出至少 4 × 4 像素的区域。', geometryDone: '已更新图片；可撤销，满意后应用到预览。', anchorReset: '变换后的两点无法用于长度标定，已恢复默认两点；请重新标定。', rotateLeft: '左转 90°', rotateRight: '右转 90°', mirrorX: '水平镜像', mirrorY: '垂直镜像',
-  sampleColor: '吸取底色', removeColor: '去除所选底色', colorEmpty: '尚未取色', colorPicked: '已取色，请调整容差后点击「去除所选底色」。', colorHint: '点击图片背景取色；不会立即删除像素。', colorTransparent: '这里已经透明，请点击仍然可见的背景。', colorAll: '清除整张图的相近颜色（含镂空）', colorToleranceNote: '容差 0 只匹配相同颜色；数值越大，允许的颜色偏差越大。调整后点击去除；删多了可撤销。', colorDone: '已清除所选底色范围，误删的细节可撤销或恢复。', colorNone: '此范围内没有可继续清除的像素，请增大容差或重新取色。',
-  auto: '自动去白底', tolerance: '颜色容差', wand: '点去背景', erase: '擦除', restore: '恢复', brush: '画笔大小', undo: '撤销', restoreImage: '恢复原图', showOriginal: '查看原图', showResult: '查看结果', apply: '应用到预览', cancel: '取消', download: '下载透明 PNG', editorCanvas: '图片修补画布',
+  sampleColor: '吸取底色', colorEmpty: '点击图片取色', colorHint: '点击背景取色后立即预览去底效果。', colorTransparent: '这里已经透明，请点击仍然可见的背景。', colorAll: '包含不相连区域（如镂空）', colorToleranceNote: '容差越大，去除范围越广；调小可恢复。本次取色与容差调整可一步撤销。', colorDone: '去底效果已实时更新。切换画笔或重新取色会保留当前结果。',
+  tolerance: '颜色容差', erase: '擦除', restore: '恢复', brush: '画笔大小', undo: '撤销', restoreImage: '恢复原图', showOriginal: '查看原图', showResult: '查看结果', apply: '应用到预览', cancel: '取消', download: '下载透明 PNG', editorCanvas: '图片修补画布',
   cutoutDone: '已应用图片，按当前挂点与长度更新佩戴效果。', autoDone: '已清除边缘相连的浅色背景；镂空内的背景可点击去除。', noBackground: '未发现可清除的浅色背景，请调整强度或使用擦除画笔。', pickWhite: '请点击白色或浅灰色背景；深色区域可用擦除画笔。', emptyCutout: '没有保留可见内容，已撤回操作。', editorReady: '可点击清除背景，或选择画笔修补。', originalView: '当前为原图对比，切回结果后可继续修补。', editorFailed: '图片暂时无法编辑，请重新上传后重试。', downloadName: 'earring-transparent.png', brushUnit: 'px',
   length: '耳环实际长度', lengthNote: '长度指悬挂点到最低点的垂直距离，可在图片中手动标定两点。', rotation: '旋转', rotationNote: '以耳垂悬挂点为中心调整角度。',
   compare: '比较两个长度', back: '返回单个预览', reset: '重置', delete: '删除设计',
@@ -39,6 +39,7 @@ const TEXT = {
 .cutout-actions{display:flex;gap:8px;margin-top:15px;flex-wrap:wrap}dialog{width:min(850px,calc(100% - 24px));max-height:94dvh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:24px;background:var(--paper);color:var(--ink)}dialog::backdrop{background:rgb(30 32 28 / .45)}dialog h2{margin:0;font-size:21px;font-family:Georgia,"Songti SC",serif}.editor-tools,.editor-bottom{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:15px 0}.editor-tools button,.editor-bottom button{font-size:12px}.editor-settings{display:flex;gap:24px;flex-wrap:wrap}.editor-settings label{font-size:12px;flex:1;min-width:120px}.editor-settings output{float:right;color:var(--muted)}.canvas-wrap{display:flex;justify-content:center;align-items:center;background:#e6e4de;border:1px solid var(--line);padding:12px;min-height:150px}.canvas-wrap canvas{display:block;max-width:100%;max-height:48dvh;width:auto;height:auto;touch-action:none;cursor:crosshair;background-color:#fff;background-image:repeating-conic-gradient(#e3e3df 0% 25%,transparent 0% 50%);background-size:16px 16px}.editor-bottom{justify-content:space-between;margin-bottom:0}.editor-bottom>div{display:flex;gap:8px}.editor-bottom .primary{width:auto}.editor-status{min-height:20px;font-size:12px;color:var(--accent);margin:10px 0}.editor-tools .active{background:var(--accent);color:white}.editor-tools button[aria-pressed=true]{border-color:var(--accent)}body:has(dialog[open]){overflow:hidden}@media(max-width:500px){dialog{padding:16px}.editor-tools{gap:6px}.editor-tools button{padding:7px 9px}.editor-bottom{gap:12px}.canvas-wrap canvas{max-height:38dvh}}
 .preview-position{display:flex;flex-wrap:wrap;gap:9px;align-items:center;padding:12px 25px;border-bottom:1px solid var(--line)}.preview-position .note{flex-basis:100%;margin:0}.art.positioning{cursor:crosshair;touch-action:manipulation;outline:1px dashed #a5ad9b;outline-offset:-4px}.anchor-actions{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-top:18px}.anchor-actions .primary{width:auto}.anchor-actions>div{display:flex;gap:8px}
 .sample-row{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.sample-row button{font-size:12px}.sample-swatch{display:inline-block;width:20px;height:20px;border:1px solid #b6b6ad;border-radius:3px;vertical-align:middle}.sample-row output{font-size:12px;font-family:monospace}.color-settings{border-block:1px solid var(--line);padding:12px 0;margin:8px 0 14px}.color-settings .check{margin:7px 0}.color-settings .note{margin:7px 0 0}
+#geometry-tools{margin:10px 0 14px;font-size:12px}#geometry-tools summary{cursor:pointer;color:var(--muted);padding:5px 0}.sample-row button.active{background:var(--accent);color:white}.editor-settings input:disabled{opacity:.4;cursor:default}
 </style>
 </head>
 <body>
@@ -53,7 +54,7 @@ const TEXT = {
         <div id="drop" class="drop" role="button" tabindex="0"><span data-text="upload"></span><small data-text="formats"></small></div>
         <div class="uploaded" id="uploaded" hidden><img class="thumb" id="thumb" alt=""><div class="upload-actions"><div class="file-name" id="filename"></div><button class="small" id="reupload" data-text="reupload"></button></div></div>
         <p class="note" data-text="uploadNote"></p><button class="text-button" id="example" data-text="example"></button>
-        <div id="cutout-actions" class="cutout-actions" hidden><button class="small" id="cutout" data-text="cutout"></button><button class="small" id="repair" data-text="repair"></button><button class="small" id="anchor" data-text="anchor"></button></div>
+        <div id="cutout-actions" class="cutout-actions" hidden><button class="small" id="repair" data-text="repair"></button><button class="small" id="anchor" data-text="anchor"></button></div>
       </section>
       <section class="section" id="single-control"><div class="length-head"><h3><span class="step">02</span><label for="length" data-text="length"></label></h3><div class="value"><input type="number" id="length-number" min="2" max="15" step="0.5" value="5"><span data-text="cm"></span></div></div>
         <input id="length" type="range" min="2" max="15" step="0.5" value="5"><div class="range-labels"><span>2 <span data-text="cm"></span></span><span>15 <span data-text="cm"></span></span></div><div class="quick" id="quick"></div><p class="note" data-text="lengthNote"></p>
@@ -69,10 +70,8 @@ const TEXT = {
 </div>
 <dialog id="editor" aria-labelledby="editor-title" aria-describedby="editor-note">
   <h2 id="editor-title" data-text="editorTitle"></h2><p class="note" id="editor-note" data-text="editorNote"></p>
-  <div class="editor-tools"><button id="auto-cut" data-text="auto"></button><button data-tool="wand" data-text="wand"></button><button data-tool="erase" data-text="erase"></button><button data-tool="restore" data-text="restore"></button></div>
-  <div class="editor-tools"><button data-tool="crop" data-text="crop"></button><button id="crop-apply" data-text="cropApply" disabled></button><button data-transform="left" data-text="rotateLeft"></button><button data-transform="right" data-text="rotateRight"></button><button data-transform="mirrorX" data-text="mirrorX"></button><button data-transform="mirrorY" data-text="mirrorY"></button></div>
-  <div class="color-settings"><div class="sample-row"><button data-tool="sample" data-text="sampleColor"></button><span class="sample-swatch" id="sample-swatch" aria-hidden="true"></span><output id="sample-value" aria-live="polite" data-text="colorEmpty"></output><button id="remove-color" data-text="removeColor" disabled></button></div><label class="check"><input id="color-all" type="checkbox"><span data-text="colorAll"></span></label><p class="note" data-text="colorToleranceNote"></p></div>
-  <div class="editor-settings"><label><span data-text="tolerance"></span><output id="tolerance-value"></output><input id="tolerance" type="range" min="0" max="100" value="20"></label><label><span data-text="brush"></span><output id="brush-value"></output><input id="brush" type="range" min="4" max="80" value="24"></label></div>
+  <div class="color-settings"><div class="sample-row"><button data-tool="sample" data-text="sampleColor"></button><button data-tool="erase" data-text="erase"></button><button data-tool="restore" data-text="restore"></button><span class="sample-swatch" id="sample-swatch" aria-hidden="true"></span><output id="sample-value" aria-live="polite" data-text="colorEmpty"></output></div><div id="color-controls"><div class="editor-settings"><label><span data-text="tolerance"></span><output id="tolerance-value"></output><input id="tolerance" type="range" min="0" max="100" value="20"></label></div><label class="check"><input id="color-all" type="checkbox"><span data-text="colorAll"></span></label><p class="note" data-text="colorToleranceNote"></p></div><div class="editor-settings" id="brush-controls" hidden><label><span data-text="brush"></span><output id="brush-value"></output><input id="brush" type="range" min="4" max="80" value="24"></label></div></div>
+  <details id="geometry-tools"><summary data-text="geometryTools"></summary><div class="editor-tools"><button data-tool="crop" data-text="crop"></button><button id="crop-apply" data-text="cropApply" disabled></button><button data-transform="left" data-text="rotateLeft"></button><button data-transform="right" data-text="rotateRight"></button><button data-transform="mirrorX" data-text="mirrorX"></button><button data-transform="mirrorY" data-text="mirrorY"></button></div></details>
   <div class="canvas-wrap"><canvas id="edit-canvas" tabindex="0"></canvas></div>
   <p id="editor-status" class="editor-status" role="status" aria-live="polite"></p>
   <div class="editor-tools"><button id="undo" data-text="undo"></button><button id="restore-image" data-text="restoreImage"></button><button id="original-view" data-text="showOriginal" aria-pressed="false"></button></div>
@@ -107,7 +106,8 @@ function draw(svg, length) {
   const {x:lx,y:ly}=state.lobe;
   svg.append(svgNode('title',{},TEXT.svgLabel));
   svg.append(svgNode('image',{href:PORTRAIT_URL,...PHOTO_BOX,preserveAspectRatio:'xMidYMid meet','data-portrait':''}));
-  svg.append(svgNode('path',{d:`M${RULER_X} 19H17`,stroke:'#626b59','stroke-width':'.035','stroke-dasharray':'.12 .2','data-shoulder':''}));
+  // 下方参考线表示当前长度，而非固定肩线；滑块、输入和 A/B 都由同一长度驱动。
+  svg.append(svgNode('path',{d:`M${RULER_X} ${ly+length}H${Math.max(17,lx+2)}`,stroke:'#596350','stroke-width':'.045','stroke-dasharray':'.14 .18','data-length-guide':length}));
   svg.append(svgNode('path',{d:`M${RULER_X} ${ly}H${lx}`,stroke:'#626b59','stroke-width':'.035','stroke-dasharray':'.12 .15'}));
   // 标尺固定位置与刻度；长度标记不受旋转影响，表示设计本身的实际长度。
   svg.append(svgNode('path',{d:`M${RULER_X} ${ly}V${ly+15}`,stroke:'#69745f','stroke-width':'.045'}));
@@ -288,43 +288,46 @@ function paintEditor(){
   if(edit.crop&&!edit.showOriginal){const r=cropRect();editContext.fillStyle='rgb(35 38 30 / .35)';editContext.beginPath();editContext.rect(0,0,edit.width,edit.height);editContext.rect(r.x,r.y,r.width,r.height);editContext.fill('evenodd');editContext.strokeStyle='#596350';editContext.lineWidth=2*edit.width/(editCanvas.getBoundingClientRect().width||edit.width);editContext.strokeRect(r.x,r.y,r.width,r.height);}
   $('crop-apply').disabled=!edit.crop||edit.showOriginal;
   const color=edit.sample?.color,hex=color?'#'+color.map(value=>value.toString(16).padStart(2,'0')).join(''):null;
-  $('sample-swatch').style.backgroundColor=hex||'transparent';$('sample-value').textContent=hex||TEXT.colorEmpty;$('remove-color').disabled=!edit.sample||edit.showOriginal;
+  $('sample-swatch').style.backgroundColor=hex||'transparent';$('sample-value').textContent=hex||TEXT.colorEmpty;
+  $('tolerance').disabled=!edit.sample||edit.showOriginal;$('color-all').disabled=!edit.sample||edit.showOriginal;
+  const brushing=edit.tool==='erase'||edit.tool==='restore';$('brush-controls').hidden=!brushing;$('color-controls').hidden=brushing;
   document.querySelectorAll('[data-transform]').forEach(button=>button.disabled=edit.showOriginal);
   $('undo').disabled=!edit.history.length||edit.showOriginal;
-  $('auto-cut').disabled=edit.showOriginal;$('restore-image').disabled=edit.showOriginal;
+  $('restore-image').disabled=edit.showOriginal;
   $('original-view').textContent=edit.showOriginal?TEXT.showResult:TEXT.showOriginal;
   $('original-view').setAttribute('aria-pressed',edit.showOriginal);
   document.querySelectorAll('[data-tool]').forEach(button=>{const active=button.dataset.tool===edit.tool;button.classList.toggle('active',active);button.setAttribute('aria-pressed',active);});
 }
-async function openEditor(automatic){
+async function openEditor(){
   const design=state.image;if(!design)return;
   try{
     const image=new Image();image.src=design.url;await image.decode();
     if(state.image!==design)return;
     editCanvas.width=image.naturalWidth;editCanvas.height=image.naturalHeight;editContext.clearRect(0,0,editCanvas.width,editCanvas.height);editContext.drawImage(image,0,0);
     const pixels=editContext.getImageData(0,0,editCanvas.width,editCanvas.height);
-    edit={original:design.originalPixels||pixels,alpha:alphaOf(pixels),width:editCanvas.width,height:editCanvas.height,anchor:{...(design.anchor||{x:.5,y:0})},tip:{...(design.tip||{x:.5,y:1})},history:[],tool:'wand',showOriginal:false,stroke:null,crop:null,sample:null};
+    edit={original:design.originalPixels||pixels,alpha:alphaOf(pixels),width:editCanvas.width,height:editCanvas.height,anchor:{...(design.anchor||{x:.5,y:0})},tip:{...(design.tip||{x:.5,y:1})},history:[],tool:'sample',showOriginal:false,stroke:null,crop:null,sample:null};
     $('color-all').checked=false;
     edit.root=design.editRoot||{original:edit.original,width:edit.width,height:edit.height,anchor:{...edit.anchor},tip:{...edit.tip}};
-    $('editor').showModal();editorStatus(TEXT.editorReady);paintEditor();if(automatic)removeBackground();
+    $('geometry-tools').open=false;$('editor').showModal();editorStatus(TEXT.colorHint);paintEditor();
   }catch{status(TEXT.editorFailed,true);}
 }
-// 从边缘泛洪仅删除连通的浅色区域；封闭镂空需要用户点击，避免盲目删除白色珠宝。
-function removeBackground(seed,sampled=false){
-  if(!edit||edit.showOriginal)return;
-  const {width:w,height:h,original,alpha}=edit,n=w*h,tolerance=Number($('tolerance').value);
-  if(sampled&&!edit.sample)return;
-  // RGB 各通道与取色值的最大偏差不超过容差；参照固定取色值，避免颜色逐步漂移。
-  const qualifies=index=>{const i=index*4,r=original.data[i],g=original.data[i+1],b=original.data[i+2];if(sampled){const color=edit.sample.color;return original.data[i+3]===0||Math.max(Math.abs(r-color[0]),Math.abs(g-color[1]),Math.abs(b-color[2]))<=tolerance;}return original.data[i+3]===0||(Math.min(r,g,b)>=255-tolerance&&Math.max(r,g,b)-Math.min(r,g,b)<=tolerance);};
-  if(seed!==undefined&&!qualifies(seed)){editorStatus(TEXT.pickWhite);return;}
-  const visited=new Uint8Array(n),queue=new Int32Array(n);let head=0,tail=0,changed=0;
-  function add(index){if(!visited[index]){visited[index]=1;if(qualifies(index))queue[tail++]=index;}}
-  if(sampled&&$('color-all').checked){for(let index=0;index<n;index++)add(index);}else if(seed!==undefined)add(seed);else{for(let x=0;x<w;x++){add(x);add((h-1)*w+x);}for(let y=0;y<h;y++){add(y*w);add(y*w+w-1);}}
-  const next=alpha.slice();
-  while(head<tail){const index=queue[head++],x=index%w;if(next[index]){next[index]=0;changed++;}if(x>0)add(index-1);if(x<w-1)add(index+1);if(index>=w)add(index-w);if(index<n-w)add(index+w);}
-  if(!changed){editorStatus(sampled?TEXT.colorNone:TEXT.noBackground);return;}
-  if(!next.some(value=>value>0)){editorStatus(TEXT.emptyCutout);return;}
-  remember();edit.alpha=next;paintEditor();editorStatus(sampled?TEXT.colorDone:TEXT.autoDone);
+// 每次取色保存一份基线蒙版；容差往返调整均从基线计算，不累积删除。
+// 一次取色加多次滑动只占用一步撤销，切换画笔或变换后冻结当前效果。
+function previewColorRemoval(){
+  if(!edit?.sample||edit.showOriginal)return;
+  const {width:w,height:h,original,sample}=edit,n=w*h,tolerance=Number($('tolerance').value);
+  const next=sample.baseAlpha.slice();
+  const qualifies=index=>{const i=index*4;return original.data[i+3]===0||Math.max(Math.abs(original.data[i]-sample.color[0]),Math.abs(original.data[i+1]-sample.color[1]),Math.abs(original.data[i+2]-sample.color[2]))<=tolerance;};
+  if($('color-all').checked){
+    for(let index=0;index<n;index++)if(qualifies(index))next[index]=0;
+  }else{
+    const visited=new Uint8Array(n),queue=new Int32Array(n);let head=0,tail=0;
+    function add(index){if(!visited[index]){visited[index]=1;if(qualifies(index))queue[tail++]=index;}}
+    add(sample.index);
+    while(head<tail){const index=queue[head++],x=index%w;next[index]=0;if(x>0)add(index-1);if(x<w-1)add(index+1);if(index>=w)add(index-w);if(index<n-w)add(index+w);}
+  }
+  const empty=!next.some(value=>value>0);
+  edit.alpha=empty?sample.baseAlpha.slice():next;paintEditor();editorStatus(empty?TEXT.emptyCutout:TEXT.colorDone);
 }
 function canvasPoint(event){const bounds=editCanvas.getBoundingClientRect(),inset=edit.tool==='crop'?0:1;return{x:Math.min(edit.width-inset,Math.max(0,(event.clientX-bounds.left)*edit.width/bounds.width)),y:Math.min(edit.height-inset,Math.max(0,(event.clientY-bounds.top)*edit.height/bounds.height))};}
 function stamp(point){
@@ -339,8 +342,7 @@ function stamp(point){
 editCanvas.addEventListener('pointerdown',event=>{
   if(!edit||edit.showOriginal||edit.stroke||event.button!==0)return;
   event.preventDefault();const point=canvasPoint(event);
-  if(edit.tool==='sample'){const index=Math.floor(point.y)*edit.width+Math.floor(point.x);if(!edit.alpha[index]){editorStatus(TEXT.colorTransparent);return;}edit.sample={index,color:Array.from(edit.original.data.subarray(index*4,index*4+3))};paintEditor();editorStatus(TEXT.colorPicked);return;}
-  if(edit.tool==='wand'){removeBackground(Math.floor(point.y)*edit.width+Math.floor(point.x));return;}
+  if(edit.tool==='sample'){const index=Math.floor(point.y)*edit.width+Math.floor(point.x);if(!edit.alpha[index]){editorStatus(TEXT.colorTransparent);return;}remember();edit.sample={index,color:Array.from(edit.original.data.subarray(index*4,index*4+3)),baseAlpha:edit.alpha.slice()};previewColorRemoval();return;}
   if(edit.tool==='crop'){edit.crop={start:point,end:point};edit.stroke={point,id:event.pointerId};editCanvas.setPointerCapture(event.pointerId);paintEditor();return;}
   remember();edit.stroke={point,id:event.pointerId};editCanvas.setPointerCapture(event.pointerId);stamp(point);paintEditor();
 });
@@ -354,15 +356,13 @@ editCanvas.addEventListener('pointermove',event=>{
 });
 function finishStroke(){if(!edit?.stroke)return;edit.stroke=null;if(!edit.alpha.some(value=>value>0)){restoreSnapshot(edit.history.pop());editorStatus(TEXT.emptyCutout);}paintEditor();}
 editCanvas.addEventListener('pointerup',finishStroke);editCanvas.addEventListener('pointercancel',finishStroke);editCanvas.addEventListener('lostpointercapture',finishStroke);
-document.querySelectorAll('[data-tool]').forEach(button=>button.onclick=()=>{edit.tool=button.dataset.tool;edit.crop=null;edit.showOriginal=false;paintEditor();editorStatus(edit.tool==='crop'?TEXT.cropHint:edit.tool==='sample'?TEXT.colorHint:TEXT.editorReady);});
-$('cutout').onclick=()=>openEditor(true);$('repair').onclick=()=>openEditor(false);
-$('auto-cut').onclick=()=>removeBackground();
-$('remove-color').onclick=()=>{if(edit.sample)removeBackground(edit.sample.index,true);};
+document.querySelectorAll('[data-tool]').forEach(button=>button.onclick=()=>{edit.tool=button.dataset.tool;if(edit.tool!=='sample')edit.sample=null;edit.crop=null;edit.showOriginal=false;paintEditor();editorStatus(edit.tool==='crop'?TEXT.cropHint:edit.tool==='sample'?TEXT.colorHint:TEXT.editorReady);});
+$('repair').onclick=()=>openEditor();
 $('undo').onclick=()=>{if(edit.history.length){restoreSnapshot(edit.history.pop());paintEditor();editorStatus(TEXT.editorReady);}};
 $('restore-image').onclick=()=>{remember();restoreSnapshot({...edit.root,anchor:{...edit.root.anchor},tip:{...edit.root.tip},alpha:alphaOf(edit.root.original)});paintEditor();editorStatus(TEXT.editorReady);};
 $('original-view').onclick=()=>{edit.showOriginal=!edit.showOriginal;paintEditor();editorStatus(edit.showOriginal?TEXT.originalView:TEXT.editorReady);};
 function updateEditorSettings(){$('tolerance-value').textContent=$('tolerance').value;$('brush-value').textContent=`${$('brush').value} ${TEXT.brushUnit}`;}
-$('tolerance').oninput=updateEditorSettings;$('brush').oninput=updateEditorSettings;updateEditorSettings();
+$('tolerance').oninput=()=>{updateEditorSettings();previewColorRemoval();};$('color-all').onchange=previewColorRemoval;$('brush').oninput=updateEditorSettings;updateEditorSettings();
 function exportCanvas(){const canvas=document.createElement('canvas');canvas.width=edit.width;canvas.height=edit.height;canvas.getContext('2d').putImageData(resultPixels(),0,0);return canvas;}
 $('apply-edit').onclick=()=>{if(!edit.alpha.some(value=>value>0)){editorStatus(TEXT.emptyCutout);return;}const url=exportCanvas().toDataURL('image/png');state.image={...state.image,url,ratio:edit.width/edit.height,anchor:{...edit.anchor},tip:{...edit.tip},opaque:false,originalPixels:edit.original,editRoot:edit.root};$('thumb').src=url;render();$('editor').close();status(TEXT.cutoutDone);};
 $('download').onclick=()=>{const link=document.createElement('a');link.href=exportCanvas().toDataURL('image/png');link.download=TEXT.downloadName;link.click();};
