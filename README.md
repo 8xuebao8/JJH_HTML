@@ -1,5 +1,4 @@
 
-````markdown
 # 耳环佩戴比例视觉化工具
 # Earring Proportion Studio
 
@@ -105,4 +104,3 @@ the page.
 
 This tool provides visual proportion reference, not precise measurements
 or a guarantee of actual fit.
-````
